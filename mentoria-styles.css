@@ -1,4 +1,4 @@
-﻿*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root, .lp-wrap {
       --green: #6aebaf;
@@ -60,8 +60,8 @@
 
     /* ─── ANIMATE ON SCROLL ─── */
     .anim {
-      opacity: 0;
-      transform: translateY(32px);
+      opacity: 1;
+      transform: translateY(0);
       transition: opacity .65s ease, transform .65s ease;
     }
     .anim.visible {
