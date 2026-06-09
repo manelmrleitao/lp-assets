@@ -1541,11 +1541,6 @@
     }
     .pillar-card--full {
       grid-column: auto; /* normal on desktop */
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 28px;
-      padding: 28px 40px;
-      justify-content: center;
     }
     .pillar-card--full .pillar-card__line { display: block; }
     .pillar-card--full .pillar-card__desc { max-width: none; }
