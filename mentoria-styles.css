@@ -1,4 +1,4 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+﻿*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root, .lp-wrap {
       --green: #6aebaf;
@@ -2058,8 +2058,8 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      /* 50vw centers a 280px card regardless of container width */
-      padding: 16px calc(50vw - 140px);
+      /* padding set dynamically by JS based on actual container width */
+      padding: 16px 0;
       scrollbar-width: none;
       cursor: grab;
     }
@@ -2101,7 +2101,6 @@
     }
     @media (max-width: 600px) {
       .proof-slide { width: 240px; }
-      .proof-carousel { padding: 16px calc(50vw - 120px); }
     }
 
     /* ─── PROOF CARD EMPTY PLACEHOLDER ─── */
