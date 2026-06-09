@@ -1796,31 +1796,27 @@
       flex-shrink: 0;
     }
     .ba-reveal__btn svg { width: 18px; height: 18px; }
+    .ba-reveal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
     .ba-lbl {
-      position: absolute;
-      top: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 20px;
-      pointer-events: none;
-      z-index: 6;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
       font-family: Inter, -apple-system, sans-serif;
-      backdrop-filter: blur(6px);
     }
     .ba-lbl--before {
-      left: 12px;
-      background: rgba(200,50,50,0.85);
-      color: #fff;
-      border: none;
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.22);
+      color: #f87171;
     }
     .ba-lbl--after {
-      right: 12px;
-      background: rgba(16,185,100,0.85);
-      color: #fff;
-      border: none;
+      background: rgba(106,235,175,0.08);
+      border: 1px solid rgba(106,235,175,0.22);
+      color: #6aebaf;
     }
     /* BA reveal wrapper (with optional stats below) */
     .ba-reveal-wrap { max-width: 780px; margin: 40px auto 0; }
