@@ -1118,9 +1118,10 @@
     }
     .logos-track-outer::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
     .logos-track-outer::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
-    .logos-track { display: flex; gap: 40px; width: max-content; animation: logos-scroll 28s linear infinite; }
+    .logos-track { display: flex; gap: 60px; width: max-content; animation: logos-scroll 30s linear infinite; }
     .logos-track:hover { animation-play-state: paused; }
-    @keyframes logos-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    /* 4 sets: animate -25% = exactly 1 set width → seamless loop */
+    @keyframes logos-scroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
     .logo-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; opacity: 0.55; transition: opacity .2s; cursor: default; }
     .logo-item:hover { opacity: 1; }
     .logo-item__icon { height: 36px; min-width: 28px; display: flex; align-items: center; justify-content: center; }
