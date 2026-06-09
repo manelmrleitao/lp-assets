@@ -913,6 +913,12 @@
     .montage {
       padding: 64px 0 80px;
       overflow: visible;
+      background-color: var(--bg2);
+      background-image:
+        linear-gradient(rgba(106,235,175,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(106,235,175,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      position: relative;
     }
     .montage__label {
       text-align: center;
@@ -1980,10 +1986,40 @@
       width: 100%;
       display: block;
       object-fit: cover;
+      border-radius: 14px;
+      min-height: 200px;
     }
-    .ba-static__half img { border-radius: 14px; }
+    @media (min-width: 769px) {
+      .ba-static__half img { min-height: 300px; }
+    }
     .ba-static__half--before { border-color: rgba(248,113,113,0.25); }
     .ba-static__half--after  { border-color: rgba(106,235,175,0.25); }
+    /* Stats list below BA images */
+    .ba-stats {
+      list-style: none;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 0;
+    }
+    .ba-stats li {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .ba-stats--red li {
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.25);
+      color: #f87171;
+    }
+    .ba-stats--green li {
+      background: rgba(106,235,175,0.08);
+      border: 1px solid rgba(106,235,175,0.25);
+      color: #6aebaf;
+    }
     .ba-static__divider {
       display: flex;
       align-items: center;
@@ -2007,22 +2043,22 @@
       .ba-callout--static { font-size: 9px; padding: 3px 6px; }
     }
 
-    /* ─── SPIDER LAYOUT (legenda vertical à esquerda) ─── */
+    /* ─── SPIDER LAYOUT (legenda abaixo do chart) ─── */
     .spider-layout {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 24px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      max-width: 780px;
+      gap: 28px;
+      max-width: 560px;
       margin: 0 auto;
     }
-    .spider-wrap { max-width: 580px; }
+    .spider-wrap { order: 1; width: 100%; max-width: 560px; }
     .spider-legend--vertical {
-      flex-direction: column;
-      align-items: flex-start;
+      order: 2;
+      flex-direction: row;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      padding: 0;
+      gap: 12px 24px;
     }
     .spider-legend--vertical .spider-legend__item {
       font-size: 14px;
@@ -2030,21 +2066,14 @@
       white-space: normal;
       line-height: 1.3;
     }
-    @media (max-width: 768px) {
-      /* on mobile: chart on top, legend below */
-      .spider-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-      }
-      .spider-legend--vertical {
-        order: 2;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 14px 24px;
-      }
-      .spider-wrap { order: 1; max-width: 100%; }
-      .spider-legend--vertical .spider-legend__item { font-size: 13px; }
+    /* Spider polygon animation from centre outward */
+    .spider-poly { transform-origin: 200px 200px; }
+    .spider-poly--gray  { animation: spiderGrow 0.9s cubic-bezier(.22,.68,0,1.2) 0.3s both; }
+    .spider-poly--green { animation: spiderGrow 1s   cubic-bezier(.22,.68,0,1.2) 0.7s both; }
+    .spider-poly--blue  { animation: spiderGrow 1s   cubic-bezier(.22,.68,0,1.2) 1.1s both; }
+    @keyframes spiderGrow {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
     }
 
     /* ─── PROOF CAROUSEL ─── */
