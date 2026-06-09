@@ -1673,7 +1673,7 @@
     .ba-reveal__btn svg { width: 18px; height: 18px; }
     .ba-lbl {
       position: absolute;
-      bottom: 14px;
+      top: -36px;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.4px;
@@ -1685,14 +1685,13 @@
       font-family: Inter, -apple-system, sans-serif;
     }
     .ba-lbl--before {
-      left: 14px;
-      background: rgba(15,15,15,0.7);
+      left: 0;
+      background: rgba(248,113,113,0.15);
       color: #f87171;
       border: 1px solid rgba(248,113,113,0.4);
-      backdrop-filter: blur(4px);
     }
     .ba-lbl--after {
-      right: 14px;
+      right: 0;
       background: rgba(15,15,15,0.7);
       color: var(--green);
       border: 1px solid rgba(106,235,175,0.4);
@@ -1968,11 +1967,12 @@
       align-items: start;
       max-width: 900px;
       margin: 0 auto;
+      padding-top: 40px; /* space for labels above images */
     }
     .ba-static__half {
       position: relative;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: visible;   /* allow labels to float above */
       border: 1px solid rgba(255,255,255,0.08);
     }
     .ba-static__half img {
@@ -1980,6 +1980,7 @@
       display: block;
       object-fit: cover;
     }
+    .ba-static__half img { border-radius: 14px; }
     .ba-static__half--before { border-color: rgba(248,113,113,0.25); }
     .ba-static__half--after  { border-color: rgba(106,235,175,0.25); }
     .ba-static__divider {
@@ -2008,12 +2009,13 @@
     /* ─── SPIDER LAYOUT (legenda vertical à esquerda) ─── */
     .spider-layout {
       display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 32px;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
       align-items: center;
-      max-width: 680px;
+      max-width: 780px;
       margin: 0 auto;
     }
+    .spider-wrap { max-width: 580px; }
     .spider-legend--vertical {
       flex-direction: column;
       align-items: flex-start;
@@ -2022,27 +2024,42 @@
       padding: 0;
     }
     .spider-legend--vertical .spider-legend__item {
-      font-size: 13px;
+      font-size: 14px;
       gap: 10px;
+      white-space: normal;
+      line-height: 1.3;
     }
     @media (max-width: 768px) {
-      .spider-layout { grid-template-columns: 1fr; }
-      .spider-legend--vertical { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      /* on mobile: chart on top, legend below */
+      .spider-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      .spider-legend--vertical {
+        order: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px 24px;
+      }
+      .spider-wrap { order: 1; max-width: 100%; }
+      .spider-legend--vertical .spider-legend__item { font-size: 13px; }
     }
 
     /* ─── PROOF CAROUSEL ─── */
     .proof-carousel-outer {
       position: relative;
-      padding: 20px 0 40px;
-      overflow: hidden;
+      padding: 20px 0 50px;
+      overflow: hidden;  /* clip horizontal scroll bleed */
     }
     .proof-carousel {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      padding: 20px 50vw 20px;
+      /* center each 280px card: (50% of container) - (half card width) */
+      padding: 30px calc(50% - 140px);
       scrollbar-width: none;
       cursor: grab;
     }
@@ -2051,19 +2068,19 @@
     .proof-slide {
       scroll-snap-align: center;
       flex-shrink: 0;
-      width: 260px;
+      width: 280px;
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
       transition: transform .5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .4s ease, opacity .4s ease;
       opacity: 0.4;
-      transform: scale(0.8);
+      transform: scale(0.82);
     }
     .proof-slide.is-active {
       opacity: 1;
-      transform: scale(1.18);
-      box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 2px rgba(106,235,175,0.35);
+      transform: scale(1.12);
+      box-shadow: 0 28px 72px rgba(0,0,0,0.8), 0 0 0 2px rgba(106,235,175,0.35);
     }
     .proof-slide img { width: 100%; display: block; object-fit: cover; }
     .proof-carousel-dots {
@@ -2084,7 +2101,8 @@
       transform: scale(1.4);
     }
     @media (max-width: 600px) {
-      .proof-slide { width: 200px; }
+      .proof-slide { width: 220px; }
+      .proof-carousel { padding: 30px calc(50% - 110px); }
     }
 
     /* ─── PROOF CARD EMPTY PLACEHOLDER ─── */
