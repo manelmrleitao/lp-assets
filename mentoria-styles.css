@@ -911,7 +911,7 @@
     /* ─── IMAGE MONTAGE PLACEHOLDER ─── */
     /* ─── PROOF CARDS (floating) ─── */
     .montage {
-      padding: 64px 0 80px;
+      padding: 16px 0 80px;
       overflow: visible;
       background-color: var(--bg2);
       background-image:
@@ -1374,7 +1374,7 @@
     /* ─── INLINE CTA ─── */
     .inline-cta {
       text-align: center;
-      padding: 0 0 64px;
+      padding: 0 0 32px;
     }
     .btn--outline {
       background: transparent;
