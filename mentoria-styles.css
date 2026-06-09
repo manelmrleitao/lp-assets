@@ -2186,24 +2186,60 @@
     }
     .ba-swipe__dot--active { background: #6aebaf; transform: scale(1.35); }
 
-    /* ─── PROOF CAROUSEL ─── */
-    .proof-carousel-outer {
+    /* ─── COVERFLOW CAROUSEL ─── */
+    .coverflow-outer {
+      padding: 12px 0 56px;
       position: relative;
-      padding: 8px 0 40px;
     }
-    .proof-carousel {
+    .coverflow {
+      position: relative;
+      height: 380px;
+      perspective: 1100px;
       display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      /* padding set dynamically by JS based on actual container width */
-      padding: 16px 0;
-      scrollbar-width: none;
-      cursor: grab;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
     }
-    .proof-carousel::-webkit-scrollbar { display: none; }
-    .proof-carousel:active { cursor: grabbing; }
+    .coverflow__item {
+      position: absolute;
+      width: 300px;
+      transition: transform 0.55s cubic-bezier(.4,0,.2,1), opacity 0.55s ease;
+      cursor: pointer;
+      will-change: transform;
+    }
+    .coverflow__item img {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.75);
+      pointer-events: none;
+    }
+    .coverflow__item.is-active img {
+      box-shadow: 0 24px 64px rgba(0,0,0,0.85), 0 0 0 1.5px rgba(106,235,175,0.35);
+    }
+    .coverflow-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+    }
+    .coverflow-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .coverflow-dot--active {
+      background: #6aebaf;
+      transform: scale(1.35);
+    }
+    @media (max-width: 600px) {
+      .coverflow { height: 260px; }
+      .coverflow__item { width: 200px; }
+    }
+
+    /* ─── PROOF SLIDE (kept for compat) ─── */
     .proof-slide {
       scroll-snap-align: center;
       flex-shrink: 0;
