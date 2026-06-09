@@ -920,6 +920,15 @@
       background-size: 48px 48px;
       position: relative;
     }
+    .montage::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, var(--bg), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
     .montage__label {
       text-align: center;
       margin-bottom: 56px;
