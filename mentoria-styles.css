@@ -1759,6 +1759,7 @@
       width: 100%;
       height: auto;
       pointer-events: none;
+      object-position: top left;
     }
     .ba-reveal__before-layer {
       position: absolute;
@@ -1771,6 +1772,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
+      object-position: top left;
     }
     .ba-reveal__handle {
       position: absolute;
