@@ -1874,3 +1874,181 @@
     .lp-wrap { background-color: #0a0a0a !important; background: #0a0a0a !important; color: #f0f0f0 !important; }
     .lp-wrap *, .lp-wrap *::before, .lp-wrap *::after { box-sizing: border-box; }
     html, body { background: #0a0a0a !important; margin: 0 !important; padding: 0 !important; }
+
+    /* ─── CSS STARFIELD (substitui canvas para GHL) ─── */
+    .css-starfield {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .css-starfield::before,
+    .css-starfield::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 85% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 30%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 5% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 95% 45%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 65%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 20% 5%, rgba(106,235,175,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 75% 95%, rgba(106,235,175,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 30%, rgba(255,255,255,0.5) 0%, transparent 100%);
+      animation: starfield-drift 80s linear infinite;
+    }
+    .css-starfield::after {
+      animation-duration: 120s;
+      animation-direction: reverse;
+      opacity: 0.6;
+      background-image:
+        radial-gradient(1px 1px at 22% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 58% 22%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 78% 58%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 12% 88%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 42% 72%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 12%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(2px 2px at 33% 33%, rgba(106,235,175,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 67% 47%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 3% 63%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 52% 8%, rgba(255,255,255,0.7) 0%, transparent 100%);
+    }
+    @keyframes starfield-drift {
+      0%   { transform: translateY(0) translateX(0); }
+      50%  { transform: translateY(-2%) translateX(1%); }
+      100% { transform: translateY(0) translateX(0); }
+    }
+    /* hide canvas if CSS starfield is active */
+    body.css-stars #starfield { display: none; }
+
+    /* ─── ABOUT PHOTO BALLOONS ─── */
+    .about__photo--balloons {
+      position: relative;
+      overflow: visible !important;
+    }
+    .about-balloon {
+      position: absolute;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(106,235,175,0.12);
+      animation: balloon-float 4s ease-in-out infinite;
+      z-index: 10;
+    }
+    .about-balloon img { width: 100%; display: block; }
+    .about-balloon--1 {
+      width: 130px;
+      top: -20px; right: -30px;
+      animation-delay: 0s;
+    }
+    .about-balloon--2 {
+      width: 110px;
+      bottom: 60px; right: -25px;
+      animation-delay: 1.3s;
+    }
+    .about-balloon--3 {
+      width: 100px;
+      bottom: -10px; left: -20px;
+      animation-delay: 2.6s;
+    }
+    @keyframes balloon-float {
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50%       { transform: translateY(-10px) rotate(1deg); }
+    }
+    @media (max-width: 768px) {
+      .about-balloon--1 { width: 90px; top: -15px; right: -10px; }
+      .about-balloon--2 { width: 80px; bottom: 40px; right: -10px; }
+      .about-balloon--3 { width: 75px; bottom: -5px; left: -10px; }
+    }
+
+    /* ─── BA STATIC (substitui slider que não funciona em GHL) ─── */
+    .ba-static {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: start;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .ba-static__half {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .ba-static__half img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .ba-static__half--before { border-color: rgba(248,113,113,0.25); }
+    .ba-static__half--after  { border-color: rgba(106,235,175,0.25); }
+    .ba-static__divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,0.3);
+      padding: 0 4px;
+      align-self: center;
+    }
+    .ba-callout--static {
+      font-size: 11px;
+    }
+    @media (min-width: 769px) {
+      .ba-callout--static { font-size: 13px; }
+    }
+    @media (max-width: 600px) {
+      .ba-static { grid-template-columns: 1fr; gap: 8px; }
+      .ba-static__divider { display: none; }
+      .ba-callout--static { font-size: 9px; padding: 3px 6px; }
+    }
+
+    /* ─── SPIDER LAYOUT (legenda vertical à esquerda) ─── */
+    .spider-layout {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 32px;
+      align-items: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .spider-legend--vertical {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+    }
+    .spider-legend--vertical .spider-legend__item {
+      font-size: 13px;
+      gap: 10px;
+    }
+    @media (max-width: 768px) {
+      .spider-layout { grid-template-columns: 1fr; }
+      .spider-legend--vertical { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ─── PROOF CARD EMPTY PLACEHOLDER ─── */
+    .proof-card--empty {
+      min-height: 160px;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.06);
+    }
