@@ -2050,17 +2050,16 @@
     /* ─── PROOF CAROUSEL ─── */
     .proof-carousel-outer {
       position: relative;
-      padding: 20px 0 50px;
-      overflow: hidden;  /* clip horizontal scroll bleed */
+      padding: 8px 0 40px;
     }
     .proof-carousel {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      /* center each 280px card: (50% of container) - (half card width) */
-      padding: 30px calc(50% - 140px);
+      /* 50vw centers a 280px card regardless of container width */
+      padding: 16px calc(50vw - 140px);
       scrollbar-width: none;
       cursor: grab;
     }
@@ -2074,14 +2073,13 @@
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      transition: transform .5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .4s ease, opacity .4s ease;
-      opacity: 0.4;
-      transform: scale(0.82);
+      transition: border-color .35s ease, box-shadow .35s ease, opacity .35s ease;
+      opacity: 0.45;
     }
     .proof-slide.is-active {
       opacity: 1;
-      transform: scale(1.12);
-      box-shadow: 0 28px 72px rgba(0,0,0,0.8), 0 0 0 2px rgba(106,235,175,0.35);
+      border-color: rgba(106,235,175,0.4);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.75), 0 0 0 1px rgba(106,235,175,0.3);
     }
     .proof-slide img { width: 100%; display: block; object-fit: cover; }
     .proof-carousel-dots {
@@ -2102,8 +2100,8 @@
       transform: scale(1.4);
     }
     @media (max-width: 600px) {
-      .proof-slide { width: 220px; }
-      .proof-carousel { padding: 30px calc(50% - 110px); }
+      .proof-slide { width: 240px; }
+      .proof-carousel { padding: 16px calc(50vw - 120px); }
     }
 
     /* ─── PROOF CARD EMPTY PLACEHOLDER ─── */
