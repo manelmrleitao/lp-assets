@@ -139,7 +139,7 @@
 
     /* ─── HERO ─── */
     .hero {
-      padding: 140px 0 96px;
+      padding: 140px 0 56px;
       text-align: center;
     }
     .hero__headline {
@@ -910,8 +910,55 @@
 
     /* ─── IMAGE MONTAGE PLACEHOLDER ─── */
     /* ─── PROOF CARDS (floating) ─── */
+    .montage__desc {
+      font-size: 15px;
+      color: var(--muted);
+      margin: 8px 0 0;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* ── Marks image marquee ── */
+    .marks-track-outer {
+      overflow: hidden;
+      position: relative;
+      margin-top: 32px;
+      z-index: 2;
+    }
+    .marks-track-outer::before,
+    .marks-track-outer::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .marks-track-outer::before { left: 0; background: linear-gradient(to right, var(--bg2), transparent); }
+    .marks-track-outer::after  { right: 0; background: linear-gradient(to left, var(--bg2), transparent); }
+    .marks-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: marks-scroll 28s linear infinite;
+    }
+    .marks-track.paused { animation-play-state: paused; }
+    @keyframes marks-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marks-img {
+      height: 280px;
+      width: auto;
+      border-radius: 12px;
+      object-fit: contain;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: var(--bg3);
+    }
     .montage {
-      padding: 16px 0 80px;
+      padding: 48px 0 72px;
       overflow: visible;
       background-color: var(--bg2);
       background-image:
@@ -929,9 +976,20 @@
       pointer-events: none;
       z-index: 1;
     }
+    .montage::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
     .montage__label {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 2;
     }
     .proof-float {
       position: relative;
