@@ -1742,7 +1742,7 @@
     .ba-reveal {
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: 0 0 16px 16px;
       cursor: ew-resize;
       user-select: none;
       touch-action: none;
@@ -1799,23 +1799,25 @@
     .ba-reveal-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
     .ba-lbl {
       font-size: 13px;
       font-weight: 600;
-      padding: 7px 12px;
-      border-radius: 8px;
+      padding: 7px 14px;
+      border-radius: 8px 8px 0 0;
       font-family: Inter, -apple-system, sans-serif;
     }
     .ba-lbl--before {
-      background: rgba(248,113,113,0.08);
-      border: 1px solid rgba(248,113,113,0.22);
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-bottom: none;
       color: #f87171;
     }
     .ba-lbl--after {
-      background: rgba(106,235,175,0.08);
-      border: 1px solid rgba(106,235,175,0.22);
+      background: rgba(106,235,175,0.12);
+      border: 1px solid rgba(106,235,175,0.3);
+      border-bottom: none;
       color: #6aebaf;
     }
     /* BA reveal wrapper (with optional stats below) */
