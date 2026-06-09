@@ -1461,15 +1461,26 @@
       border: 1px solid rgba(106,235,175,0.08);
     }
     .pillar-card--full {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: center;
+      grid-column: auto; /* normal on desktop */
+      flex-direction: column;
+      align-items: flex-start;
       gap: 28px;
       padding: 28px 40px;
       justify-content: center;
     }
-    .pillar-card--full .pillar-card__line { display: none; }
-    .pillar-card--full .pillar-card__desc { max-width: 520px; }
+    .pillar-card--full .pillar-card__line { display: block; }
+    .pillar-card--full .pillar-card__desc { max-width: none; }
+    /* on mobile: pillar 09 spans full width */
+    @media (max-width: 768px) {
+      .pillar-card--full {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        padding: 28px 24px;
+        justify-content: flex-start;
+      }
+      .pillar-card--full .pillar-card__line { display: none; }
+    }
 
     /* ─── INSPIRAÇÕES CARROSSEL ─── */
     .inspo-carousel-outer {
@@ -1703,6 +1714,36 @@
       color: var(--green);
       border: 1px solid rgba(106,235,175,0.4);
       backdrop-filter: blur(4px);
+    }
+    /* BA reveal wrapper (with optional stats below) */
+    .ba-reveal-wrap { max-width: 780px; margin: 40px auto 0; }
+    .ba-reveal-stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .ba-reveal-stats-col { display: flex; flex-direction: column; gap: 6px; }
+    .ba-reveal-stats-col li {
+      list-style: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .ba-reveal-stats-col--red li {
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.22);
+      color: #f87171;
+    }
+    .ba-reveal-stats-col--green li {
+      background: rgba(106,235,175,0.08);
+      border: 1px solid rgba(106,235,175,0.22);
+      color: #6aebaf;
+    }
+    @media (max-width: 480px) {
+      .ba-reveal-stats-row { grid-template-columns: 1fr; }
     }
     .ba-note {
       text-align: center;
@@ -2194,18 +2235,20 @@
     .coverflow {
       position: relative;
       height: 380px;
-      perspective: 1100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: visible;
     }
     .coverflow__item {
       position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -150px;
       width: 300px;
       transition: transform 0.55s cubic-bezier(.4,0,.2,1), opacity 0.55s ease;
       cursor: pointer;
       will-change: transform;
+    }
+    @media (max-width: 600px) {
+      .coverflow__item { margin-left: -100px; width: 200px; }
     }
     .coverflow__item img {
       width: 100%;
@@ -2236,7 +2279,6 @@
     }
     @media (max-width: 600px) {
       .coverflow { height: 260px; }
-      .coverflow__item { width: 200px; }
     }
 
     /* ─── PROOF SLIDE (kept for compat) ─── */
