@@ -1812,15 +1812,15 @@
     }
     .ba-lbl--before {
       left: 12px;
-      background: rgba(248,113,113,0.18);
-      color: #f87171;
-      border: 1px solid rgba(248,113,113,0.45);
+      background: rgba(200,50,50,0.85);
+      color: #fff;
+      border: none;
     }
     .ba-lbl--after {
       right: 12px;
-      background: rgba(10,10,10,0.75);
-      color: var(--green);
-      border: 1px solid rgba(106,235,175,0.45);
+      background: rgba(16,185,100,0.85);
+      color: #fff;
+      border: none;
     }
     /* BA reveal wrapper (with optional stats below) */
     .ba-reveal-wrap { max-width: 780px; margin: 40px auto 0; }
