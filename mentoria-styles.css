@@ -268,7 +268,14 @@
     .vsl__play svg { margin-left: 4px; }
 
     /* ─── SOBRE MIM ─── */
-    .about { background: var(--bg2); }
+    .about {
+      background-color: var(--bg2);
+      background-image:
+        linear-gradient(rgba(106,235,175,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(106,235,175,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      position: relative;
+    }
     .about__inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -971,8 +978,8 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 80px;
-      background: linear-gradient(to bottom, var(--bg), transparent);
+      height: 60px;
+      background: linear-gradient(to bottom, var(--bg2), transparent);
       pointer-events: none;
       z-index: 1;
     }
@@ -1441,7 +1448,12 @@
     /* ─── INLINE CTA ─── */
     .inline-cta {
       text-align: center;
-      padding: 0 0 32px;
+      padding: 0 0 56px;
+      background-color: var(--bg2);
+      background-image:
+        linear-gradient(rgba(106,235,175,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(106,235,175,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
     }
     .btn--outline {
       background: transparent;
