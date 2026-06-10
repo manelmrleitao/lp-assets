@@ -192,7 +192,7 @@
       width: 100%;
     }
     .stat-item {
-      padding: 40px 0;
+      padding: 40px 16px;
       text-align: center;
       border-right: 1px solid var(--border);
       display: flex;
