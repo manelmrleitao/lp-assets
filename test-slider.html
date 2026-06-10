@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slider Test</title>
+<link rel="stylesheet" href="https://manelmrleitao.github.io/lp-assets/mentoria-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body style="background:#0a0a0a;color:#f0f0f0;font-family:Inter,sans-serif;padding:40px 0;">
+
+<!-- Simulates GHL Custom Code 2 -->
+<div id="ghl-part2">
+<div class="lp-wrap" style="background-color:#0a0a0a!important;background:#0a0a0a!important;color:#f0f0f0!important;font-family:Inter,sans-serif;line-height:1.6;min-height:100vh;display:block;">
+<section class="section" style="padding:40px 0;">
+  <div class="container">
+    <div class="section-header">
+      <div class="tag">Resultados reais</div>
+      <h2 class="section-title">ROAS 1.4 → <span class="grad-text">ROAS 7.3</span></h2>
+    </div>
+    <div class="ba-reveal-wrap">
+      <div class="ba-reveal-header">
+        <span class="ba-lbl ba-lbl--before">Antes</span>
+        <span class="ba-lbl ba-lbl--after">Depois</span>
+      </div>
+      <div class="ba-reveal" id="baReveal1">
+        <div class="ba-reveal__layer">
+          <img src="https://assets.cdn.filesafe.space/cg9rclaXapFY2CSZuhem/media/6a2749362db4a9d19ae21703.jpg" alt="depois">
+        </div>
+        <div class="ba-reveal__before-layer">
+          <img src="https://assets.cdn.filesafe.space/cg9rclaXapFY2CSZuhem/media/6a27493619b4ff338be92062.jpg" alt="antes">
+        </div>
+        <div class="ba-reveal__handle" id="baHandle1">
+          <div class="ba-reveal__btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="ba-reveal-stats-row">
+        <ul class="ba-reveal-stats-col ba-reveal-stats-col--red">
+          <li>31 dias · ~€1.140 investidos</li>
+          <li>ROAS médio 1.4×</li>
+        </ul>
+        <ul class="ba-reveal-stats-col ba-reveal-stats-col--green">
+          <li>10 dias · €464 investidos</li>
+          <li>ROAS 7.3×</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</div>
+
+<!-- Debug panel -->
+<div id="debug" style="position:fixed;bottom:10px;left:10px;background:rgba(0,0,0,0.85);color:#6aebaf;padding:12px;font-size:12px;font-family:monospace;border-radius:8px;z-index:9999;max-width:340px;border:1px solid rgba(106,235,175,0.3);">
+  <div id="debug-log">Initializing...</div>
+</div>
+
+<script>
+function dbg(msg){ var d=document.getElementById('debug-log'); d.innerHTML += '<br>' + msg; }
+
+(function(){
+  function makeReveal(id){
+    var el = document.getElementById(id);
+    dbg('makeReveal('+id+'): el=' + (el ? 'FOUND' : 'NULL'));
+    if(!el || el.dataset.baInit) return false;
+    el.dataset.baInit = '1';
+
+    var beforeLayer = el.querySelector('.ba-reveal__before-layer');
+    var handle = el.querySelector('.ba-reveal__handle');
+    dbg('  beforeLayer=' + (beforeLayer?'OK':'NULL') + ' handle=' + (handle?'OK':'NULL'));
+    if(!beforeLayer) return false;
+
+    var drag = false;
+
+    function setPos(x){
+      var r = el.getBoundingClientRect();
+      var pct = Math.max(4, Math.min(96, (x - r.left) / r.width * 100));
+      el.style.setProperty('--pos', pct + '%');
+      beforeLayer.style.clipPath = 'inset(0 ' + (100-pct).toFixed(2) + '% 0 0)';
+      if(handle) handle.style.left = pct + '%';
+      dbg('  drag → ' + pct.toFixed(0) + '%');
+    }
+
+    el.addEventListener('mousedown',  function(e){ drag=true; setPos(e.clientX); e.preventDefault(); });
+    document.addEventListener('mousemove', function(e){ if(drag) setPos(e.clientX); });
+    document.addEventListener('mouseup',   function(){ drag=false; });
+    el.addEventListener('touchstart', function(e){ drag=true; setPos(e.touches[0].clientX); e.preventDefault(); },{passive:false});
+    document.addEventListener('touchmove', function(e){ if(drag){ setPos(e.touches[0].clientX); e.preventDefault(); } },{passive:false});
+    document.addEventListener('touchend',  function(){ drag=false; });
+
+    // Intro anim
+    var pos = 90;
+    function setPct(p){
+      el.style.setProperty('--pos', p + '%');
+      beforeLayer.style.clipPath = 'inset(0 ' + (100-p).toFixed(2) + '% 0 0)';
+      if(handle) handle.style.left = p + '%';
+    }
+    setPct(pos);
+    function anim(){ if(pos<=50) return; pos=Math.max(50,pos-2); setPct(pos); requestAnimationFrame(anim); }
+    var obs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ obs.disconnect(); setTimeout(anim,300); }
+    },{threshold:0.3});
+    obs.observe(el);
+    dbg('  ✓ initialized');
+    return true;
+  }
+
+  function initAll(){
+    dbg('--- initAll at readyState='+document.readyState+' ---');
+    makeReveal('baReveal1');
+    makeReveal('baReveal2');
+    makeReveal('baReveal3');
+  }
+
+  initAll();
+  setTimeout(initAll, 300);
+  setTimeout(initAll, 800);
+  document.addEventListener('DOMContentLoaded', initAll);
+  window.addEventListener('load', initAll);
+})();
+</script>
+</body>
+</html>
