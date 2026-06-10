@@ -1741,7 +1741,7 @@
     /* ─── BEFORE / AFTER SLIDER ─── */
     .ba-reveal {
       position: relative;
-      overflow: hidden;
+      overflow: visible; /* allow handle button to show at edges */
       border-radius: 0 0 16px 16px;
       cursor: ew-resize;
       user-select: none;
@@ -1751,6 +1751,8 @@
       --pos: 50%;
       background: var(--bg2);
     }
+    /* clip images (not the handle) to the container */
+    .ba-reveal__layer { overflow: hidden; border-radius: 0 0 16px 16px; }
     .ba-reveal__layer {
       width: 100%;
     }
@@ -1851,6 +1853,18 @@
     }
     @media (max-width: 480px) {
       .ba-reveal-stats-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      /* ensure slider images are tall enough to read on mobile */
+      .ba-reveal__layer,
+      .ba-reveal__before-layer { min-height: 180px; }
+      .ba-reveal__layer img,
+      .ba-reveal__before-layer img { min-height: 180px; object-fit: cover; }
+      /* stats chips smaller on mobile */
+      .ba-reveal-stats-col li { font-size: 12px; padding: 6px 10px; }
+      .ba-reveal-stats-row { gap: 8px; margin-top: 10px; }
+      /* ba-reveal-wrap breathing room */
+      .ba-reveal-wrap { margin: 0 -4px; }
     }
     .ba-reveal-desc {
       margin-top: 18px;
