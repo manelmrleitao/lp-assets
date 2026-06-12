@@ -415,3 +415,18 @@ html{scroll-behavior:smooth;}
   fixMarquee('marksTrack',2,25000);  /* montagem das marcas: 2 conjuntos */
 })();
 </script>
+
+<!-- ═══ FABLE: grelha global contínua — remove costuras entre secções ═══ -->
+<style>
+/* desliga as grelhas por-secção (criavam fronteiras visíveis) */
+.grid-bg{background-image:none!important;background-color:transparent!important;}
+.comparison-section,.pillars-section,.spider-section,.triangle-section{background:transparent!important;}
+/* grelha única, fixa e subtil, contínua em toda a página */
+#fblGrid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(106,235,175,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(106,235,175,0.035) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(130% 100% at 50% 45%,#000 35%,transparent 100%);mask-image:radial-gradient(130% 100% at 50% 45%,#000 35%,transparent 100%);}
+</style>
+<script>
+(function(){
+  if(window._fblGrid)return;window._fblGrid=1;
+  var g=document.createElement('div');g.id='fblGrid';document.body.appendChild(g);
+})();
+</script>
