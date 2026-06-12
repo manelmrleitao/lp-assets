@@ -61,3 +61,39 @@
   b.addEventListener('click',function(){scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
 })();
 </script>
+
+<!-- ═══ FABLE: fundo contínuo com estrelas + transições suaves entre secções ═══ -->
+<style>
+/* secções deixam o fundo para o body — estrelas visíveis em toda a página */
+.grid-bg{background-color:transparent!important;}
+.testi-section{background:transparent!important;}
+.logos-section,.stats-bar{background:transparent!important;}
+.footer-v2{background:transparent!important;}
+html{scroll-behavior:smooth;}
+</style>
+<script>
+(function(){
+  if(window._fblSeam)return;window._fblSeam=1;
+  function apply(){
+    document.documentElement.style.setProperty('background','#0a0a0a','important');
+    document.body.style.setProperty('background','transparent','important');
+    var c=document.getElementById('starfield');
+    if(c){c.style.setProperty('position','fixed','important');c.style.setProperty('top','0','important');c.style.setProperty('left','0','important');c.style.setProperty('z-index','-1','important');c.style.setProperty('pointer-events','none','important');}
+    document.querySelectorAll('.lp-wrap').forEach(function(el){
+      el.style.setProperty('background','transparent','important');
+      el.style.setProperty('background-color','transparent','important');
+    });
+    ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
+      document.querySelectorAll(s).forEach(function(el){
+        el.style.setProperty('background','transparent','important');
+        el.style.setProperty('padding-top','0','important');
+        el.style.setProperty('padding-bottom','0','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('margin-bottom','0','important');
+      });
+    });
+  }
+  apply();[150,600,1500,3000].forEach(function(d){setTimeout(apply,d);});
+  window.addEventListener('load',apply);
+})();
+</script>

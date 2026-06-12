@@ -1,6 +1,6 @@
 ﻿<!-- FABLE: CSS base + fonte (autossuficiente — não depende do head da página GHL) -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Playfair+Display:ital,wght@1,800;1,900&display=swap">
 <link rel="stylesheet" href="https://manelmrleitao.github.io/lp-assets/mentoria-styles.css">
 <style>
 /* ── Navbar link ── */
@@ -251,7 +251,10 @@
 @keyframes fblDrift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-80px,-50px) scale(.95)}}
 .hero .container{position:relative;z-index:2;}
 /* shimmer no destaque do headline */
-.hero__headline em{display:inline-block;font-style:italic;font-weight:800;font-size:1.18em;line-height:1.05;background:linear-gradient(110deg,#6aebaf 20%,#eafff4 40%,#6aebaf 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fblShimmer 5s linear infinite;filter:drop-shadow(0 0 24px rgba(106,235,175,.45));}
+.hero__headline em{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:900;font-size:1.28em;line-height:1;letter-spacing:.01em;background:linear-gradient(110deg,#6aebaf 20%,#eafff4 40%,#6aebaf 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fblShimmer 5s linear infinite;filter:drop-shadow(0 0 26px rgba(106,235,175,.5));}
+/* navbar transparente — ganha fundo só ao fazer scroll */
+.navbar{background:rgba(10,10,10,0)!important;border-bottom:1px solid transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:background .35s,border-color .35s,backdrop-filter .35s!important;}
+.navbar.fbl-scrolled{background:rgba(10,10,10,.82)!important;border-bottom:1px solid rgba(255,255,255,.07)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;}
 @keyframes fblShimmer{to{background-position:-200% 0}}
 /* sheen a varrer os botões verdes no hover */
 .btn--green,.btn--green-lg{position:relative;overflow:hidden;}
@@ -314,5 +317,53 @@
   function draw(){ctx.clearRect(0,0,W,H);stars.forEach(function(s){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+s.o+')';ctx.fill();if(!rm){s.x+=s.dx;s.y+=s.dy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;}});if(!rm)requestAnimationFrame(draw);}
   window.addEventListener('resize',function(){resize();});
   resize();initStars();draw();
+})();
+</script>
+
+<!-- ═══ FABLE: fundo contínuo com estrelas + transições suaves entre secções ═══ -->
+<style>
+/* secções deixam o fundo para o body — estrelas visíveis em toda a página */
+.grid-bg{background-color:transparent!important;}
+.testi-section{background:transparent!important;}
+.logos-section,.stats-bar{background:transparent!important;}
+.footer-v2{background:transparent!important;}
+html{scroll-behavior:smooth;}
+</style>
+<script>
+(function(){
+  if(window._fblSeam)return;window._fblSeam=1;
+  function apply(){
+    document.documentElement.style.setProperty('background','#0a0a0a','important');
+    document.body.style.setProperty('background','transparent','important');
+    var c=document.getElementById('starfield');
+    if(c){c.style.setProperty('position','fixed','important');c.style.setProperty('top','0','important');c.style.setProperty('left','0','important');c.style.setProperty('z-index','-1','important');c.style.setProperty('pointer-events','none','important');}
+    document.querySelectorAll('.lp-wrap').forEach(function(el){
+      el.style.setProperty('background','transparent','important');
+      el.style.setProperty('background-color','transparent','important');
+    });
+    ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
+      document.querySelectorAll(s).forEach(function(el){
+        el.style.setProperty('background','transparent','important');
+        el.style.setProperty('padding-top','0','important');
+        el.style.setProperty('padding-bottom','0','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('margin-bottom','0','important');
+      });
+    });
+  }
+  apply();[150,600,1500,3000].forEach(function(d){setTimeout(apply,d);});
+  window.addEventListener('load',apply);
+})();
+</script>
+
+<!-- ═══ FABLE: navbar ganha fundo ao fazer scroll ═══ -->
+<script>
+(function(){
+  if(window._fblNav)return;window._fblNav=1;
+  var nav=document.querySelector('.navbar');if(!nav)return;
+  var t=false;
+  function upd(){nav.classList.toggle('fbl-scrolled',scrollY>60);}
+  addEventListener('scroll',function(){if(t)return;t=true;requestAnimationFrame(function(){upd();t=false;});},{passive:true});
+  upd();
 })();
 </script>
