@@ -132,3 +132,75 @@ setTimeout(function(){document.querySelectorAll('.anim').forEach(function(el){el
   window.addEventListener('load',fixGHLRow);
 })();
 </script>
+
+<!-- ═══════════ FABLE LAYER · Part 2 — sliders, triângulo, testemunhos ═══════════ -->
+<style>
+/* pulso no botão do slider antes/depois — convida a arrastar */
+.ba-reveal__btn{animation:fblHandlePulse 2.4s infinite;}
+@keyframes fblHandlePulse{0%{box-shadow:0 0 0 0 rgba(106,235,175,.5)}70%{box-shadow:0 0 0 14px rgba(106,235,175,0)}100%{box-shadow:0 0 0 0 rgba(106,235,175,0)}}
+/* cartões de testemunho com lift + glow no hover */
+.testi-card{transition:transform .25s,border-color .25s,box-shadow .3s;}
+.testi-card:hover{transform:translateY(-5px);border-color:rgba(106,235,175,.45);box-shadow:0 16px 44px -20px rgba(106,235,175,.35);}
+/* triângulo: contorno tracejado em movimento + vértices a pulsar */
+.triangle-svg-wrap polygon[stroke-dasharray]{animation:fblMarch 26s linear infinite;}
+@keyframes fblMarch{to{stroke-dashoffset:-320}}
+.triangle-svg-wrap circle[fill="#6aebaf"]{animation:fblDotPulse 2.8s ease-in-out infinite;}
+@keyframes fblDotPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){.ba-reveal__btn,.triangle-svg-wrap polygon[stroke-dasharray],.triangle-svg-wrap circle[fill="#6aebaf"]{animation:none!important}}
+</style>
+<script>
+(function(){
+  if(window._fblP2)return;window._fblP2=1;
+  /* desfasar o pulso de cada vértice do triângulo */
+  document.querySelectorAll('.triangle-svg-wrap circle[fill="#6aebaf"]').forEach(function(c,i){c.style.animationDelay=(i*.5)+'s';});
+  /* parar o pulso do handle assim que o utilizador interage */
+  document.querySelectorAll('.ba-reveal').forEach(function(el){
+    function stop(){var b=el.querySelector('.ba-reveal__btn');if(b)b.style.animation='none';}
+    el.addEventListener('mousedown',stop,{once:true});el.addEventListener('touchstart',stop,{once:true,passive:true});
+  });
+})();
+</script>
+
+<!-- ═══ FABLE: fundo contínuo com estrelas + transições suaves entre secções ═══ -->
+<style>
+/* secções deixam o fundo para o body — estrelas visíveis em toda a página */
+.grid-bg{background-color:transparent!important;}
+.testi-section{background:transparent!important;}
+.logos-section,.stats-bar{background:transparent!important;}
+.footer-v2{background:transparent!important;}
+html{scroll-behavior:smooth;}
+</style>
+<script>
+(function(){
+  if(window._fblSeam)return;window._fblSeam=1;
+  function apply(){
+    document.documentElement.style.setProperty('background','#0a0a0a','important');
+    document.body.style.setProperty('background','transparent','important');
+    var c=document.getElementById('starfield');
+    if(c){c.style.setProperty('position','fixed','important');c.style.setProperty('top','0','important');c.style.setProperty('left','0','important');c.style.setProperty('z-index','0','important');c.style.setProperty('pointer-events','none','important');}
+    document.querySelectorAll('.lp-wrap').forEach(function(el){
+      el.style.setProperty('background','transparent','important');
+      el.style.setProperty('background-color','transparent','important');
+      el.style.setProperty('position','relative','important');
+      el.style.setProperty('z-index','1','important');
+      /* sobe TODOS os ancestrais até ao html — qualquer wrapper GHL fica transparente */
+      var n=el.parentElement,d=0;
+      while(n&&n!==document.documentElement&&d<20){
+        n.style.setProperty('background','transparent','important');
+        n.style.setProperty('background-color','transparent','important');
+        n=n.parentElement;d++;
+      }
+    });
+    ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
+      document.querySelectorAll(s).forEach(function(el){
+        el.style.setProperty('padding-top','0','important');
+        el.style.setProperty('padding-bottom','0','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('margin-bottom','0','important');
+      });
+    });
+  }
+  apply();[150,600,1500,3000].forEach(function(d){setTimeout(apply,d);});
+  window.addEventListener('load',apply);
+})();
+</script>

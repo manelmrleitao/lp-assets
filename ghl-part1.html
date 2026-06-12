@@ -1,4 +1,8 @@
-﻿<style>
+﻿<!-- FABLE: CSS base + fonte (autossuficiente — não depende do head da página GHL) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap">
+<link rel="stylesheet" href="https://manelmrleitao.github.io/lp-assets/mentoria-styles.css">
+<style>
 /* ── Navbar link ── */
 .navbar__link { font-size: 14px; font-weight: 500; color: #aaa; text-decoration: none; transition: color .2s; white-space: nowrap; margin-left: auto; margin-right: 24px; }
 .navbar__link:hover { color: #6aebaf; }
@@ -103,13 +107,12 @@
     var node = el.parentElement;
     var depth = 0;
     while(node && node.tagName !== 'BODY' && depth < 15){
-      var cs = window.getComputedStyle(node);
-      var mw = cs.maxWidth;
-      // If parent is constraining width (anything under 900px), override
-      if(mw && mw !== 'none' && parseInt(mw) < 900){
-        node.style.setProperty('max-width','100%','important');
-        node.style.setProperty('width','100%','important');
-      }
+      // FABLE: full-bleed — todos os contentores GHL a 100% de largura,
+      // sem padding lateral (as margens auto deixam de ter efeito a 100%)
+      node.style.setProperty('max-width','100%','important');
+      node.style.setProperty('width','100%','important');
+      node.style.setProperty('padding-left','0','important');
+      node.style.setProperty('padding-right','0','important');
       node.style.setProperty('overflow-x','visible','important');
       node = node.parentElement;
       depth++;
@@ -197,17 +200,205 @@
 })();
 </script>
 
-<!-- ═══ STARFIELD (movido do part4 antigo — o part4 novo já não o tem) ═══ -->
+<!-- ═══════════ FABLE LAYER · Part 1 — hero, botões, comparison, ambiente ═══════════ -->
+<style id="fbl-core-css">
+/* barra de progresso de scroll */
+#fblProgress{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#6aebaf,#5b9cf6);z-index:99999;pointer-events:none;}
+/* spotlight que segue o cursor */
+#fblGlow{position:fixed;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(106,235,175,.09),transparent 65%);transform:translate(-50%,-50%);opacity:0;transition:opacity .5s;mix-blend-mode:screen;}
+/* aurora no hero */
+.fbl-aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;-webkit-mask-image:radial-gradient(120% 100% at 50% 35%,#000 50%,transparent 98%);mask-image:radial-gradient(120% 100% at 50% 35%,#000 50%,transparent 98%);}
+.fbl-aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.15;}
+.fbl-aurora i:nth-child(1){width:440px;height:440px;background:#6aebaf;top:-140px;left:-90px;animation:fblDrift1 18s ease-in-out infinite alternate;}
+.fbl-aurora i:nth-child(2){width:380px;height:380px;background:#5b9cf6;bottom:-160px;right:-70px;animation:fblDrift2 23s ease-in-out infinite alternate;}
+@keyframes fblDrift1{from{transform:translate(0,0) scale(1)}to{transform:translate(90px,60px) scale(1.15)}}
+@keyframes fblDrift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-80px,-50px) scale(.95)}}
+.hero .container{position:relative;z-index:2;}
+/* shimmer no destaque do headline */
+.hero__headline em{font-style:italic;font-weight:900;background:linear-gradient(110deg,#6aebaf 20%,#eafff4 40%,#6aebaf 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fblShimmer 5s linear infinite;filter:drop-shadow(0 0 22px rgba(106,235,175,.4));}
+/* navbar transparente — ganha fundo só ao fazer scroll */
+.navbar{background:rgba(10,10,10,0)!important;border-bottom:1px solid transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:background .35s,border-color .35s,backdrop-filter .35s!important;}
+.navbar.fbl-scrolled{background:rgba(10,10,10,.82)!important;border-bottom:1px solid rgba(255,255,255,.07)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;}
+@keyframes fblShimmer{to{background-position:-200% 0}}
+/* sheen a varrer os botões verdes no hover */
+.btn--green,.btn--green-lg{position:relative;overflow:hidden;}
+.btn--green::after,.btn--green-lg::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .55s ease;pointer-events:none;}
+.btn--green:hover::after,.btn--green-lg:hover::after{left:135%;}
+/* anel a pulsar no play do VSL */
+.vsl__play{position:relative;}
+.vsl__play::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(106,235,175,.55);animation:fblPing 2.2s cubic-bezier(0,0,.2,1) infinite;}
+@keyframes fblPing{0%{transform:scale(.9);opacity:.8}80%,100%{transform:scale(1.5);opacity:0}}
+/* tilt 3D nos cartões de comparação */
+.comp-card{transition:transform .18s ease,box-shadow .3s;will-change:transform;}
+.comp-card--good:hover{box-shadow:0 20px 55px -20px rgba(106,235,175,.4);}
+.comp-card--bad:hover{box-shadow:0 20px 55px -24px rgba(255,80,80,.25);}
+/* brilho nos números das stats */
+.stat-item__number{transition:text-shadow .3s;}
+.stat-item:hover .stat-item__number{text-shadow:0 0 26px rgba(106,235,175,.6);}
+@media(prefers-reduced-motion:reduce){.fbl-aurora i,.vsl__play::after,.hero__headline em{animation:none!important}#fblGlow{display:none}}
+@media(max-width:768px){#fblGlow{display:none}}
+</style>
 <script>
 (function(){
+  if(window._fblCore)return;window._fblCore=1;
+  var fine=matchMedia('(pointer:fine)').matches,rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* progresso de scroll */
+  var pb=document.createElement('div');pb.id='fblProgress';document.body.appendChild(pb);
+  var tick=false;
+  addEventListener('scroll',function(){if(tick)return;tick=true;requestAnimationFrame(function(){var h=document.documentElement,m=h.scrollHeight-innerHeight;pb.style.transform='scaleX('+(m>0?h.scrollTop/m:0)+')';tick=false;});},{passive:true});
+  /* aurora no hero */
+  var hero=document.querySelector('.hero');
+  if(hero&&!rm){var cs=getComputedStyle(hero);if(cs.position==='static')hero.style.position='relative';var au=document.createElement('div');au.className='fbl-aurora';au.innerHTML='<i></i><i></i>';hero.insertBefore(au,hero.firstChild);}
+  /* spotlight do cursor (desktop) */
+  if(fine&&!rm){var gl=document.createElement('div');gl.id='fblGlow';document.body.appendChild(gl);var gx=innerWidth/2,gy=200,vx=gx,vy=gy;addEventListener('mousemove',function(e){gx=e.clientX;gy=e.clientY;gl.style.opacity='1';},{passive:true});(function loop(){vx+=(gx-vx)*.1;vy+=(gy-vy)*.1;gl.style.left=vx+'px';gl.style.top=vy+'px';requestAnimationFrame(loop);})();}
+  /* botões magnéticos (desktop) */
+  if(fine&&!rm)document.querySelectorAll('.btn--green,.btn--green-lg').forEach(function(b){
+    b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.1).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.22).toFixed(1)+'px)';});
+    b.addEventListener('mouseleave',function(){b.style.transform='';});
+  });
+  /* tilt 3D nos comp-cards (desktop) */
+  if(fine&&!rm)document.querySelectorAll('.comp-card').forEach(function(c){
+    c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var rx=((e.clientY-r.top)/r.height-.5)*-5,ry=((e.clientX-r.left)/r.width-.5)*5;c.style.transform='perspective(800px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';});
+    c.addEventListener('mouseleave',function(){c.style.transform='';});
+  });
+  /* parallax suave nos balões da foto (desktop) */
+  if(fine&&!rm){var bs=document.querySelectorAll('.about-balloon');if(bs.length)addEventListener('mousemove',function(e){var dx=e.clientX/innerWidth-.5,dy=e.clientY/innerHeight-.5;bs.forEach(function(b,i){var f=(i+1)*5;b.style.transform='translate('+(dx*f).toFixed(1)+'px,'+(dy*f).toFixed(1)+'px)';});},{passive:true});}
+  /* âncoras com scroll suave */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:rm?'auto':'smooth'});}});});
+})();
+</script>
+
+<!-- ═══ FABLE: starfield (o JS original estava no part4 antigo; a página de teste não o tem) ═══ -->
+<script>
+(function(){
+  if(window._fblStars)return;window._fblStars=1;
   var canvas=document.getElementById('starfield');
   if(!canvas||canvas._sf)return;canvas._sf=1;
   var ctx=canvas.getContext('2d'),W,H,stars=[],COUNT=130;
   var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
   function initStars(){stars=[];for(var i=0;i<COUNT;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.3,dx:(Math.random()-0.5)*0.15,dy:(Math.random()-0.5)*0.15,o:Math.random()*0.5+0.2});}}
-  function draw(){ctx.clearRect(0,0,W,H);stars.forEach(function(s){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+s.o+')';ctx.fill();if(!rm){s.x+=s.dx;s.y+=s.dy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;}});if(!rm)requestAnimationFrame(draw);}
+  function draw(){ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);stars.forEach(function(s){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+s.o+')';ctx.fill();if(!rm){s.x+=s.dx;s.y+=s.dy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;}});if(!rm)requestAnimationFrame(draw);}
   window.addEventListener('resize',function(){resize();});
   resize();initStars();draw();
+})();
+</script>
+
+<!-- ═══ FABLE: fundo contínuo com estrelas + transições suaves entre secções ═══ -->
+<style>
+/* secções deixam o fundo para o body — estrelas visíveis em toda a página */
+.grid-bg{background-color:transparent!important;}
+.testi-section{background:transparent!important;}
+.logos-section,.stats-bar{background:transparent!important;}
+.footer-v2{background:transparent!important;}
+html{scroll-behavior:smooth;}
+</style>
+<script>
+(function(){
+  if(window._fblSeam)return;window._fblSeam=1;
+  function apply(){
+    document.documentElement.style.setProperty('background','#0a0a0a','important');
+    document.body.style.setProperty('background','transparent','important');
+    var c=document.getElementById('starfield');
+    if(c){c.style.setProperty('position','fixed','important');c.style.setProperty('top','0','important');c.style.setProperty('left','0','important');c.style.setProperty('z-index','0','important');c.style.setProperty('pointer-events','none','important');}
+    document.querySelectorAll('.lp-wrap').forEach(function(el){
+      el.style.setProperty('background','transparent','important');
+      el.style.setProperty('background-color','transparent','important');
+      el.style.setProperty('position','relative','important');
+      el.style.setProperty('z-index','1','important');
+      /* sobe TODOS os ancestrais até ao html — qualquer wrapper GHL fica transparente */
+      var n=el.parentElement,d=0;
+      while(n&&n!==document.documentElement&&d<20){
+        n.style.setProperty('background','transparent','important');
+        n.style.setProperty('background-color','transparent','important');
+        n=n.parentElement;d++;
+      }
+    });
+    ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
+      document.querySelectorAll(s).forEach(function(el){
+        el.style.setProperty('padding-top','0','important');
+        el.style.setProperty('padding-bottom','0','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('margin-bottom','0','important');
+      });
+    });
+  }
+  apply();[150,600,1500,3000].forEach(function(d){setTimeout(apply,d);});
+  window.addEventListener('load',apply);
+})();
+</script>
+
+<!-- ═══ FABLE: navbar ganha fundo ao fazer scroll ═══ -->
+<script>
+(function(){
+  if(window._fblNav)return;window._fblNav=1;
+  var nav=document.querySelector('.navbar');if(!nav)return;
+  var t=false;
+  function upd(){nav.classList.toggle('fbl-scrolled',scrollY>60);}
+  addEventListener('scroll',function(){if(t)return;t=true;requestAnimationFrame(function(){upd();t=false;});},{passive:true});
+  upd();
+})();
+</script>
+
+<!-- ═══ FABLE: marquee sem costuras — mede a largura real e faz wrap exato ═══ -->
+<style>
+.fbl-marquee-fixed{animation:none!important;}
+</style>
+<script>
+(function(){
+  if(window._fblMarq)return;window._fblMarq=1;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  function fixMarquee(id,sets,msPerSet){
+    var tr=document.getElementById(id);if(!tr||tr._fblM)return;tr._fblM=1;
+    tr.classList.add('fbl-marquee-fixed');
+    var paused=false,x=0,last=null,setW=0;
+    tr.addEventListener('mouseenter',function(){paused=true;});
+    tr.addEventListener('mouseleave',function(){paused=false;});
+    function measure(){
+      var kids=tr.children,per=Math.floor(kids.length/sets);
+      if(kids.length<per+1)return 0;
+      return kids[per].offsetLeft-kids[0].offsetLeft;
+    }
+    /* re-medir quando imagens carregam tarde (ex.: SVG do Meta) ou no resize */
+    tr.querySelectorAll('img').forEach(function(im){im.addEventListener('load',function(){setW=0;});});
+    window.addEventListener('resize',function(){setW=0;});
+    window.addEventListener('load',function(){setW=0;});
+    function fill(){
+      /* clona conjuntos até o track cobrir 1 set + ~1.6x a largura do ecrã (sem buracos no wrap) */
+      if(tr._filled)return;tr._filled=1;
+      var per=Math.floor(tr.children.length/sets),base=[].slice.call(tr.children,0,per),guard=0;
+      while(tr.scrollWidth<setW+innerWidth*1.6&&guard<10){base.forEach(function(k){tr.appendChild(k.cloneNode(true));});guard++;}
+    }
+    function tick(ts){
+      if(last==null)last=ts;
+      var dt=Math.min(ts-last,100);last=ts;
+      if(!setW||setW<10){setW=measure();if(setW>10)fill();}
+      if(setW>10&&!paused){
+        x=(x+setW*dt/msPerSet)%setW;
+        tr.style.transform='translateX(-'+x.toFixed(2)+'px)';
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  fixMarquee('logosTrack',4,30000);  /* 4 conjuntos de 6 logos */
+  fixMarquee('marksTrack',2,25000);  /* montagem das marcas: 2 conjuntos */
+})();
+</script>
+
+<!-- ═══ FABLE: grelha global contínua — remove costuras entre secções ═══ -->
+<style>
+/* desliga as grelhas por-secção (criavam fronteiras visíveis) */
+.grid-bg{background-image:none!important;background-color:transparent!important;}
+.grid-bg::before,.grid-bg::after{display:none!important;}
+.testi-section{background:transparent!important;}
+.comparison-section,.pillars-section,.spider-section,.triangle-section{background:transparent!important;}
+/* grelha única, fixa e subtil, contínua em toda a página */
+#fblGrid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(106,235,175,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(106,235,175,0.028) 1px,transparent 1px);background-size:48px 48px;}
+</style>
+<script>
+(function(){
+  if(window._fblGrid)return;window._fblGrid=1;
+  var g=document.createElement('div');g.id='fblGrid';document.body.appendChild(g);
 })();
 </script>

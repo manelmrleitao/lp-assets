@@ -23,10 +23,9 @@ Landing page de candidatura para mentoria de e-commerce (Shopify). Público-alvo
 | `ghl-part2.html` | BA reveal sliders (3x) + Triângulo Dourado + testemunhos marquee + slider JS | Custom Code 2 |
 | `ghl-part3.html` | 9 pilares + radar (spider) | Custom Code 3 |
 | `ghl-part4.html` | Footer | Custom Code 4 |
-| `ghl-part1-4-fable.html` | Versão imersiva (página de teste) — cópias + camada de efeitos + fundo seamless | Página "Candidatura Clone" |
 | `mentoria-styles.css` | CSS global (este repo, raiz) | GitHub Pages |
 
-Pasta `antigo/` contém versões antigas e assets-fonte. **Páginas:** ao vivo = funnel "Mentoria — Landing Page"; teste fable = "Mentoria — Landing Page fable" (lp1-page-7743).
+**Versão única (Jun 2026):** a antiga variante "fable" (camada imersiva + fundo seamless + form nativo) foi promovida a versão oficial — os ghl-part1-4 SÃO a versão fable. Usar os mesmos ficheiros na página ao vivo (funnel "Mentoria — Landing Page") e na página de teste ("...fable", lp1-page-7743). Pasta `antigo/` contém versões antigas e assets-fonte.
 
 ---
 

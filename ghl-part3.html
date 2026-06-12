@@ -24,3 +24,77 @@ setTimeout(function(){document.querySelectorAll('.anim').forEach(function(el){el
   window.addEventListener('load',fixGHLRow);
 })();
 </script>
+
+<!-- ═══════════ FABLE LAYER · Part 3 — pilares, radar ═══════════ -->
+<style>
+/* pillar cards: lift + glow radial que segue o cursor */
+.pillar-card{position:relative;overflow:hidden;transition:transform .25s,border-color .25s;}
+.pillar-card:hover{transform:translateY(-4px);border-color:rgba(106,235,175,.4);}
+.pillar-card::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(106,235,175,.09),transparent 45%);opacity:0;transition:opacity .3s;pointer-events:none;}
+.pillar-card:hover::before{opacity:1;}
+.pillar-card__num{transition:color .25s,text-shadow .25s;}
+.pillar-card:hover .pillar-card__num{color:#6aebaf;text-shadow:0 0 18px rgba(106,235,175,.5);}
+/* radar: polígonos entram a crescer quando a secção fica visível */
+.spider-poly{transform-box:fill-box;transform-origin:center;}
+.fbl-spider-hide .spider-poly{opacity:0;transform:scale(.72);}
+.fbl-spider-show .spider-poly{opacity:1;transform:scale(1);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);}
+.fbl-spider-show .spider-poly--green{transition-delay:.18s;}
+.fbl-spider-show .spider-poly--blue{transition-delay:.4s;}
+@media(prefers-reduced-motion:reduce){.fbl-spider-hide .spider-poly{opacity:1;transform:none}}
+</style>
+<script>
+(function(){
+  if(window._fblP3)return;window._fblP3=1;
+  if(matchMedia('(pointer:fine)').matches)document.querySelectorAll('.pillar-card').forEach(function(c){
+    c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});
+  });
+  var sw=document.querySelector('.spider-wrap');
+  if(sw){sw.classList.add('fbl-spider-hide');new IntersectionObserver(function(es,o){if(es[0].isIntersecting){sw.classList.add('fbl-spider-show');o.disconnect();}},{threshold:.35}).observe(sw);
+    /* fallback: garante visibilidade mesmo se o IO falhar no GHL */
+    setTimeout(function(){sw.classList.add('fbl-spider-show');},4000);}
+})();
+</script>
+
+<!-- ═══ FABLE: fundo contínuo com estrelas + transições suaves entre secções ═══ -->
+<style>
+/* secções deixam o fundo para o body — estrelas visíveis em toda a página */
+.grid-bg{background-color:transparent!important;}
+.testi-section{background:transparent!important;}
+.logos-section,.stats-bar{background:transparent!important;}
+.footer-v2{background:transparent!important;}
+html{scroll-behavior:smooth;}
+</style>
+<script>
+(function(){
+  if(window._fblSeam)return;window._fblSeam=1;
+  function apply(){
+    document.documentElement.style.setProperty('background','#0a0a0a','important');
+    document.body.style.setProperty('background','transparent','important');
+    var c=document.getElementById('starfield');
+    if(c){c.style.setProperty('position','fixed','important');c.style.setProperty('top','0','important');c.style.setProperty('left','0','important');c.style.setProperty('z-index','0','important');c.style.setProperty('pointer-events','none','important');}
+    document.querySelectorAll('.lp-wrap').forEach(function(el){
+      el.style.setProperty('background','transparent','important');
+      el.style.setProperty('background-color','transparent','important');
+      el.style.setProperty('position','relative','important');
+      el.style.setProperty('z-index','1','important');
+      /* sobe TODOS os ancestrais até ao html — qualquer wrapper GHL fica transparente */
+      var n=el.parentElement,d=0;
+      while(n&&n!==document.documentElement&&d<20){
+        n.style.setProperty('background','transparent','important');
+        n.style.setProperty('background-color','transparent','important');
+        n=n.parentElement;d++;
+      }
+    });
+    ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
+      document.querySelectorAll(s).forEach(function(el){
+        el.style.setProperty('padding-top','0','important');
+        el.style.setProperty('padding-bottom','0','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('margin-bottom','0','important');
+      });
+    });
+  }
+  apply();[150,600,1500,3000].forEach(function(d){setTimeout(apply,d);});
+  window.addEventListener('load',apply);
+})();
+</script>
