@@ -399,10 +399,16 @@ html{scroll-behavior:smooth;}
     tr.querySelectorAll('img').forEach(function(im){im.addEventListener('load',function(){setW=0;});});
     window.addEventListener('resize',function(){setW=0;});
     window.addEventListener('load',function(){setW=0;});
+    function fill(){
+      /* clona conjuntos até o track cobrir 1 set + ~1.6x a largura do ecrã (sem buracos no wrap) */
+      if(tr._filled)return;tr._filled=1;
+      var per=Math.floor(tr.children.length/sets),base=[].slice.call(tr.children,0,per),guard=0;
+      while(tr.scrollWidth<setW+innerWidth*1.6&&guard<10){base.forEach(function(k){tr.appendChild(k.cloneNode(true));});guard++;}
+    }
     function tick(ts){
       if(last==null)last=ts;
       var dt=Math.min(ts-last,100);last=ts;
-      if(!setW||setW<10)setW=measure();
+      if(!setW||setW<10){setW=measure();if(setW>10)fill();}
       if(setW>10&&!paused){
         x=(x+setW*dt/msPerSet)%setW;
         tr.style.transform='translateX(-'+x.toFixed(2)+'px)';
