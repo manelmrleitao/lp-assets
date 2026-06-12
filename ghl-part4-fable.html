@@ -82,10 +82,16 @@ html{scroll-behavior:smooth;}
     document.querySelectorAll('.lp-wrap').forEach(function(el){
       el.style.setProperty('background','transparent','important');
       el.style.setProperty('background-color','transparent','important');
+      /* sobe TODOS os ancestrais até ao html — qualquer wrapper GHL fica transparente */
+      var n=el.parentElement,d=0;
+      while(n&&n!==document.documentElement&&d<20){
+        n.style.setProperty('background','transparent','important');
+        n.style.setProperty('background-color','transparent','important');
+        n=n.parentElement;d++;
+      }
     });
     ['.c-section','.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical','.horizontal'].forEach(function(s){
       document.querySelectorAll(s).forEach(function(el){
-        el.style.setProperty('background','transparent','important');
         el.style.setProperty('padding-top','0','important');
         el.style.setProperty('padding-bottom','0','important');
         el.style.setProperty('margin-top','0','important');
