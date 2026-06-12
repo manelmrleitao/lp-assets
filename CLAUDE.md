@@ -19,13 +19,14 @@ Landing page de candidatura para mentoria de e-commerce (Shopify). Público-alvo
 
 | Ficheiro | Conteúdo | GHL |
 |---|---|---|
-| `ghl-part1.html` | Hero, navbar, logos, stats bar, about, montage, comparison | Custom Code 1 |
-| `ghl-part2.html` | BA reveal sliders (3x) + Triângulo Dourado + slider JS | Custom Code 2 |
-| `ghl-part3.html` | Testemunhos, FAQ, inspirações | Custom Code 3 |
-| `ghl-part4.html` | CTA section, modal com form GHL iframe, footer, todo o JS | Custom Code 4 |
-| `mentoria-styles.css` | CSS global (em `C:\Users\manel\AppData\Local\Temp\lp-assets\`) | GitHub Pages |
+| `ghl-part1.html` | Hero, navbar, logos, stats, about, montage, **form nativo GHL (iframe)**, comparison, starfield JS | Custom Code 1 |
+| `ghl-part2.html` | BA reveal sliders (3x) + Triângulo Dourado + testemunhos marquee + slider JS | Custom Code 2 |
+| `ghl-part3.html` | 9 pilares + radar (spider) | Custom Code 3 |
+| `ghl-part4.html` | Footer | Custom Code 4 |
+| `ghl-part1-4-fable.html` | Versão imersiva (página de teste) — cópias + camada de efeitos + fundo seamless | Página "Candidatura Clone" |
+| `mentoria-styles.css` | CSS global (este repo, raiz) | GitHub Pages |
 
-Pasta `final/` contém snapshot das versões finais.
+Pasta `antigo/` contém versões antigas e assets-fonte. **Páginas:** ao vivo = funnel "Mentoria — Landing Page"; teste fable = "Mentoria — Landing Page fable" (lp1-page-7743).
 
 ---
 
@@ -71,22 +72,33 @@ Pasta `final/` contém snapshot das versões finais.
 8. Expectativa com a mentoria (textarea) — obrigatório
 9. Checkbox RGPD — obrigatório
 
-### Form settings
-- On Submit: redirect para `/obrigado`
-- Facebook Pixel ID: `1901126810554894`
-- On Form Submission pixel event: `Submit Application`
-- Sticky Contact: ON
-- Create Conversation on Submission: ON
-- Email Notification: ON → `manelmrleitao@gmail.com`, subject "Candidatura Mentoria LP"
-- Auto Responder: ON
+### Form settings (REGRAS CRÍTICAS — ver SKILL-landing-page.md secção GHL)
+- **Form nativo em iframe** — NUNCA form custom via API (perde leads: endpoint 404/Cloudflare)
+- On Submit: redirect com **URL COMPLETO** `https://manelmrleitao.com/obrigado` (sem domínio → https://obrigado/ = erro)
+- **Não há split qualificado/não-qualificado** — tudo vai para /obrigado; qualificação é feita na call
+- Todos os campos **Required**
+- Facebook Pixel ID: `1901126810554894` (evento no submit)
+- Email Notification: ON → manelmrleitao@gmail.com (chega com PDF da submissão)
+- A página (part1) tem listener postMessage que dispara fbq Lead + redirect /obrigado como fallback
 
 ---
 
 ## Workflow GHL — "Lead Capture and Notification"
-- Trigger: Form Submitted (Candidatura Mentoria LP)
-- Acções: Create Opportunity → Mentoria / Manuel Leitão, Send Notification Email to User, Send Confirmation Email to Lead
+- Trigger: Form Submitted (sem filtros)
+- Acções: Create Opportunity → Mentoria / Manuel Leitão, emails
 
-**Nota:** O Inbound Webhook é premium (cobra por execução) — não usar. O form nativo GHL dispara o workflow gratuitamente.
+**Armadilhas conhecidas (resolvidas Jun 2026):**
+- Time Window nas ações prende emails em "Waiting" — manter 24/7
+- Re-entry bloqueada por defeito — testes com o mesmo contacto dão "Skipped"; Allow re-entry ativado
+- Ação "Email" envia para o CONTACTO (não para o user) — notificação ao Manuel vem das form settings (com PDF)
+- Debug: Execution logs do workflow (Executed/Waiting/Skipped/Failed)
+- O Inbound Webhook é premium — não usar; o form nativo dispara o workflow grátis
+
+## Email — Dedicated Domain (configurado Jun 2026)
+- `mail.manelmrleitao.com` verificado no GHL (Settings → Email Services → Dedicated Domain)
+- 6 registos DNS na GoDaddy (SPF, DKIM, CNAME, 2×MX prio 10, DMARC) — detalhe no SKILL
+- Emails caem na caixa Principal do Gmail (validado)
+- NÃO tocar nos registos `@` do domínio raiz (email pessoal Google/Microsoft)
 
 ---
 
@@ -124,11 +136,12 @@ Três sliders antes/depois com animação de entrada (sweep 90→50%):
 
 ## CSS (mentoria-styles.css — GitHub Pages)
 
-Ficheiro local: `C:\Users\manel\AppData\Local\Temp\lp-assets\mentoria-styles.css`
+Ficheiro local: `mentoria-styles.css` (raiz deste repo)
 URL produção: `https://manelmrleitao.github.io/lp-assets/mentoria-styles.css`
 Repo: `https://github.com/manelmrleitao/lp-assets`
 
-Para actualizar: editar o ficheiro local → fazer push para o repo `lp-assets`.
+Para actualizar: editar → commit → push (GitHub Pages atualiza em ~1-2 min; hard refresh).
+O HTML dos blocos é colado À MÃO no GHL (a automação de browser não funciona no builder).
 
 ---
 
@@ -136,10 +149,9 @@ Para actualizar: editar o ficheiro local → fazer push para o repo `lp-assets`.
 
 | URL | Quando |
 |---|---|
-| `/obrigado` | Todos os submits do form GHL |
-| `/obrigado-qualificado` | (futuro) leads qualificados via workflow |
+| `/obrigado` | Todos os submits (único redirect) |
 
-A qualificação por faturação (3k–10k / mais-10k = qualificado) pode ser implementada no workflow GHL com condição no campo faturação → redirect diferente.
+Decisão Jun 2026: **não há split qualificado/não-qualificado** — o Manuel qualifica na call.
 
 ---
 
