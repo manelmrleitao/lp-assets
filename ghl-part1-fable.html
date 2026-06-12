@@ -136,18 +136,12 @@
     var node = el.parentElement;
     var depth = 0;
     while(node && node.tagName !== 'BODY' && depth < 15){
-      var cs = window.getComputedStyle(node);
-      var mw = cs.maxWidth;
-      // If parent is constraining width (anything under 900px), override
-      if(mw && mw !== 'none' && parseInt(mw) < 900){
-        node.style.setProperty('max-width','100%','important');
-        node.style.setProperty('width','100%','important');
-      }
-      // FABLE: remove gutters laterais das secções GHL (full-bleed)
+      // FABLE: full-bleed — todos os contentores GHL a 100% de largura,
+      // sem padding lateral (as margens auto deixam de ter efeito a 100%)
+      node.style.setProperty('max-width','100%','important');
+      node.style.setProperty('width','100%','important');
       node.style.setProperty('padding-left','0','important');
       node.style.setProperty('padding-right','0','important');
-      node.style.setProperty('margin-left','0','important');
-      node.style.setProperty('margin-right','0','important');
       node.style.setProperty('overflow-x','visible','important');
       node = node.parentElement;
       depth++;
