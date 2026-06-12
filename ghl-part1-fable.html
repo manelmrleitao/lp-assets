@@ -390,6 +390,8 @@ html{scroll-behavior:smooth;}
 <style>
 /* desliga as grelhas por-secção (criavam fronteiras visíveis) */
 .grid-bg{background-image:none!important;background-color:transparent!important;}
+.grid-bg::before,.grid-bg::after{display:none!important;}
+.testi-section{background:transparent!important;}
 .comparison-section,.pillars-section,.spider-section,.triangle-section{background:transparent!important;}
 /* grelha única, fixa e subtil, contínua em toda a página */
 #fblGrid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(106,235,175,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(106,235,175,0.028) 1px,transparent 1px);background-size:48px 48px;}
