@@ -132,6 +132,19 @@
 // redireciona para /obrigado e dispara o pixel das form settings.
 (function(){
   var s=document.createElement('script');s.src='https://link.msgsndr.com/js/form_embed.js';s.async=true;document.body.appendChild(s);
+  /* fallback de redirect + tracking: quando o form GHL (iframe) submete,
+     o pai redireciona para /obrigado — independente das settings do GHL */
+  window.addEventListener('message',function(e){
+    if(typeof e.origin!=='string'||(e.origin.indexOf('leadconnectorhq.com')===-1&&e.origin.indexOf('msgsndr')===-1))return;
+    var d=e.data;try{if(typeof d!=='string')d=JSON.stringify(d);}catch(_){return;}
+    if(/form[-_ ]?submit|submitted|formSubmission/i.test(d)&&!window._fblLeadFired){
+      window._fblLeadFired=1;
+      if(typeof fbq!=='undefined')fbq('track','Lead');
+      if(typeof gtag!=='undefined')gtag('event','form_submit');
+      if(typeof dataLayer!=='undefined')dataLayer.push({event:'lead_submit'});
+      setTimeout(function(){window.location.href='/obrigado';},1500);
+    }
+  });
   var fEl=document.getElementById('formulario'),fired=false;
   if(fEl)new IntersectionObserver(function(es){if(es[0].isIntersecting&&!fired){fired=true;
     if(typeof fbq!=='undefined')fbq('track','ViewContent');
