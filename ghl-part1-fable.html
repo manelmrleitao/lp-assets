@@ -300,3 +300,19 @@
   document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:rm?'auto':'smooth'});}});});
 })();
 </script>
+
+<!-- ═══ FABLE: starfield (o JS original estava no part4 antigo; a página de teste não o tem) ═══ -->
+<script>
+(function(){
+  if(window._fblStars)return;window._fblStars=1;
+  var canvas=document.getElementById('starfield');
+  if(!canvas||canvas._sf)return;canvas._sf=1;
+  var ctx=canvas.getContext('2d'),W,H,stars=[],COUNT=130;
+  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function initStars(){stars=[];for(var i=0;i<COUNT;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.3,dx:(Math.random()-0.5)*0.15,dy:(Math.random()-0.5)*0.15,o:Math.random()*0.5+0.2});}}
+  function draw(){ctx.clearRect(0,0,W,H);stars.forEach(function(s){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+s.o+')';ctx.fill();if(!rm){s.x+=s.dx;s.y+=s.dy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;}});if(!rm)requestAnimationFrame(draw);}
+  window.addEventListener('resize',function(){resize();});
+  resize();initStars();draw();
+})();
+</script>
