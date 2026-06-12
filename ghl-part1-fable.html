@@ -251,7 +251,7 @@
 @keyframes fblDrift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-80px,-50px) scale(.95)}}
 .hero .container{position:relative;z-index:2;}
 /* shimmer no destaque do headline */
-.hero__headline em{background:linear-gradient(110deg,#6aebaf 20%,#dcfcec 40%,#6aebaf 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fblShimmer 5s linear infinite;}
+.hero__headline em{display:inline-block;font-style:italic;font-weight:800;font-size:1.18em;line-height:1.05;background:linear-gradient(110deg,#6aebaf 20%,#eafff4 40%,#6aebaf 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fblShimmer 5s linear infinite;filter:drop-shadow(0 0 24px rgba(106,235,175,.45));}
 @keyframes fblShimmer{to{background-position:-200% 0}}
 /* sheen a varrer os botões verdes no hover */
 .btn--green,.btn--green-lg{position:relative;overflow:hidden;}
