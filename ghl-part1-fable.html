@@ -87,38 +87,9 @@
 
       <!-- COLUNA DIREITA: FORM -->
       <div class="cta-split__right anim anim-delay-2">
-        <div class="cform-wrap">
-          <div class="cform-steps">
-            <button class="cform-step-btn active" id="stepBtn1" type="button"><span>1</span>Os teus dados</button>
-            <button class="cform-step-btn" id="stepBtn2" type="button"><span>2</span>Candidatar</button>
+        <div class="cform-wrap" style="padding:20px;">
+            <iframe src="https://api.leadconnectorhq.com/widget/form/kUBQa9Ttoa4dTjkE15db" style="width:100%;min-height:760px;border:none;border-radius:12px;display:block;background:transparent;" id="inline-kUBQa9Ttoa4dTjkE15db" data-form-id="kUBQa9Ttoa4dTjkE15db" title="Candidatura Mentoria"></iframe>
           </div>
-          <div class="cform-success" id="cformSuccess">
-            <div class="cform-success__icon"><svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="27" stroke="#6aebaf" stroke-width="2.5" fill="rgba(106,235,175,0.08)"/><path d="M19 30.5l7.5 7.5L42 22" stroke="#6aebaf" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="cform-success__title">Candidatura enviada!</div>
-            <p class="cform-success__sub">Vou analisá-la pessoalmente e, se fizer sentido trabalharmos juntos, entro em contacto pelo email ou WhatsApp que deixaste.</p>
-          </div>
-          <form id="cform" novalidate>
-            <div class="cform-panel active" id="cformPanel1">
-              <div class="cform-row">
-                <div class="cform-field"><label for="cf-nome">Nome *</label><input type="text" id="cf-nome" placeholder="João" autocomplete="given-name"><div class="cform-err" id="err-cf-nome">Campo obrigatório</div></div>
-                <div class="cform-field"><label for="cf-apelido">Apelido *</label><input type="text" id="cf-apelido" placeholder="Silva" autocomplete="family-name"><div class="cform-err" id="err-cf-apelido">Campo obrigatório</div></div>
-              </div>
-              <div class="cform-field"><label for="cf-email">Email *</label><input type="email" id="cf-email" placeholder="joao@loja.pt" autocomplete="email"><div class="cform-err" id="err-cf-email">Email inválido</div></div>
-              <div class="cform-field"><label for="cf-telefone">Telemóvel (WhatsApp) *</label><div class="cform-phone-row"><select id="cf-country-code" class="cform-country-select"><option value="+351" selected>🇵🇹 +351</option><option value="+34">🇪🇸 +34</option><option value="+44">🇬🇧 +44</option><option value="+353">🇮🇪 +353</option><option value="+33">🇫🇷 +33</option><option value="+49">🇩🇪 +49</option><option value="+39">🇮🇹 +39</option><option value="+31">🇳🇱 +31</option><option value="+32">🇧🇪 +32</option><option value="+41">🇨🇭 +41</option><option value="+43">🇦🇹 +43</option><option value="+46">🇸🇪 +46</option><option value="+47">🇳🇴 +47</option><option value="+45">🇩🇰 +45</option><option value="+358">🇫🇮 +358</option><option value="+55">🇧🇷 +55</option><option value="+244">🇦🇴 +244</option><option value="+258">🇲🇿 +258</option><option value="+238">🇨🇻 +238</option><option value="+1">🇺🇸 +1</option><option value="+52">🇲🇽 +52</option></select><input type="tel" id="cf-telefone" placeholder="9xx xxx xxx" autocomplete="tel"></div><div class="cform-err" id="err-cf-telefone">Campo obrigatório</div></div>
-              <button type="button" class="cform-btn cform-btn--next" id="cformNext">Continuar →</button>
-            </div>
-            <div class="cform-panel" id="cformPanel2">
-              <button type="button" class="cform-back" id="cformBack">← Voltar</button>
-              <div class="cform-field" style="margin-top:16px;"><label for="cf-faturacao">Faturação mensal actual *</label><select id="cf-faturacao"><option value="">Selecciona...</option><option value="menos-3k">Menos de 3.000€/mês</option><option value="3k-5k">3.000€ – 5.000€/mês</option><option value="5k-10k">5.000€ – 10.000€/mês</option><option value="mais-10k">Mais de 10.000€/mês</option></select><div class="cform-err" id="err-cf-faturacao">Selecciona uma opção</div></div>
-              <div class="cform-field"><label for="cf-negocio">Descreve o teu negócio *</label><input type="text" id="cf-negocio" placeholder="Ex: Loja Shopify de roupa, 2 anos, Portugal"><div class="cform-err" id="err-cf-negocio">Campo obrigatório</div></div>
-              <div class="cform-field"><label for="cf-desafio">Qual é o maior obstáculo agora? *</label><textarea id="cf-desafio" placeholder="Ex: Os anúncios não rentabilizam, a conversão é baixa, não sei por onde começar a escalar..."></textarea><div class="cform-err" id="err-cf-desafio">Campo obrigatório</div></div>
-              <div class="cform-field"><label for="cf-expectativa">O que esperas conseguir com a mentoria? *</label><textarea id="cf-expectativa" placeholder="Ex: Chegar a 10k/mês em 6 meses, ter um sistema de anúncios que funciona sozinho..."></textarea><div class="cform-err" id="err-cf-expectativa">Campo obrigatório</div></div>
-              <div class="cform-consent"><input type="checkbox" id="cf-consent"><label for="cf-consent">Aceito que os meus dados sejam usados para responder à minha candidatura. Sem spam.</label></div>
-              <div class="cform-err" id="err-cf-consent" style="margin-top:4px;">Tens de aceitar para continuar</div>
-              <button type="submit" class="cform-btn cform-btn--submit" style="margin-top:20px;">Enviar candidatura →</button>
-            </div>
-          </form>
-        </div>
         <p style="text-align:center;margin-top:14px;font-size:13px;color:#555;">Respondo a todas as candidaturas pessoalmente.</p>
       </div>
 
@@ -156,37 +127,17 @@
   window.addEventListener('load', fixWidth);
 })();
 
-// ─── 2-STEP FORM ───
+// ─── FORM NATIVO GHL (iframe) + TRACKING ───
+// A submissão é tratada pelo GHL: cria contacto, dispara workflow,
+// redireciona para /obrigado e dispara o pixel das form settings.
 (function(){
-  var step=1;
-  function goStep(n){step=n;document.getElementById('cformPanel1').classList.toggle('active',n===1);document.getElementById('cformPanel2').classList.toggle('active',n===2);document.getElementById('stepBtn1').classList.toggle('active',n===1);document.getElementById('stepBtn2').classList.toggle('active',n===2);}
-  function err(id,show){var e=document.getElementById('err-'+id),i=document.getElementById(id);if(!e||!i)return;e.style.display=show?'block':'none';i.classList.toggle('error',show);}
-  function v1(){var ok=true;['cf-nome','cf-apelido'].forEach(function(f){var b=!document.getElementById(f).value.trim();err(f,b);if(b)ok=false;});var em=document.getElementById('cf-email').value.trim();var eb=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);err('cf-email',eb);if(eb)ok=false;var cc=document.getElementById('cf-country-code').value;var tel=document.getElementById('cf-telefone').value.replace(/\D/g,'');var tb=false,tmsg='Campo obrigatório';if(!tel){tb=true;}else if(cc==='+351'&&(tel.length!==9||tel.charAt(0)!=='9')){tb=true;tmsg='Número inválido — deve ter 9 dígitos e começar por 9';}document.getElementById('err-cf-telefone').textContent=tmsg;err('cf-telefone',tb);if(tb)ok=false;return ok;}
-  function v2(){var ok=true;var fat=document.getElementById('cf-faturacao').value;err('cf-faturacao',!fat);if(!fat)ok=false;['cf-negocio','cf-desafio','cf-expectativa'].forEach(function(f){var b=!document.getElementById(f).value.trim();err(f,b);if(b)ok=false;});var c=document.getElementById('cf-consent').checked;err('cf-consent',!c);if(!c)ok=false;return ok;}
-  document.getElementById('cformNext').addEventListener('click',function(){if(v1())goStep(2);});
-  document.getElementById('cformBack').addEventListener('click',function(){goStep(1);});
-  // Telemóvel: só dígitos + máximo 9 para PT (+351)
-  var telInput=document.getElementById('cf-telefone'),ccSel=document.getElementById('cf-country-code');
-  function telMax(){return ccSel.value==='+351'?9:15;}
-  function telTrim(){telInput.value=telInput.value.replace(/\D/g,'').slice(0,telMax());}
-  telInput.setAttribute('inputmode','numeric');
-  telInput.addEventListener('input',telTrim);
-  ccSel.addEventListener('change',telTrim);
-  document.getElementById('cform').addEventListener('submit',function(e){
-    e.preventDefault();if(!v2())return;
-    var btn=this.querySelector('.cform-btn--submit');btn.disabled=true;btn.textContent='A enviar...';
-    var fat=document.getElementById('cf-faturacao').value;
-    var q=fat==='3k-5k'||fat==='5k-10k'||fat==='mais-10k';
-    if(typeof fbq!=='undefined')fbq('track','Lead');
-    if(typeof gtag!=='undefined')gtag('event','form_submit',{faturacao:fat});
-    if(typeof dataLayer!=='undefined')dataLayer.push({event:'lead_submit',faturacao:fat});
-    fetch('https://api.leadconnectorhq.com/widget/form/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({formId:'kUBQa9Ttoa4dTjkE15db',location_id:'',firstName:document.getElementById('cf-nome').value.trim(),lastName:document.getElementById('cf-apelido').value.trim(),email:document.getElementById('cf-email').value.trim(),phone:document.getElementById('cf-country-code').value+' '+document.getElementById('cf-telefone').value.trim(),faturacao_mensal:fat,negocio:document.getElementById('cf-negocio').value.trim(),desafio:document.getElementById('cf-desafio').value.trim(),expectativa:document.getElementById('cf-expectativa').value.trim()})}).catch(function(){});
-    document.getElementById('cform').style.display='none';document.querySelector('.cform-steps').style.display='none';document.getElementById('cformSuccess').style.display='block';var sp=document.querySelector('.cta-split');if(sp)sp.classList.add('cta-split--done');
-    setTimeout(function(){window.location.href=q?'/obrigado-qualificado':'/obrigado';},2500);
-  });
-  // ViewContent tracking
+  var s=document.createElement('script');s.src='https://link.msgsndr.com/js/form_embed.js';s.async=true;document.body.appendChild(s);
   var fEl=document.getElementById('formulario'),fired=false;
-  if(fEl)new IntersectionObserver(function(es){if(es[0].isIntersecting&&!fired){fired=true;if(typeof fbq!=='undefined')fbq('track','ViewContent');}},{threshold:0.3}).observe(fEl);
+  if(fEl)new IntersectionObserver(function(es){if(es[0].isIntersecting&&!fired){fired=true;
+    if(typeof fbq!=='undefined')fbq('track','ViewContent');
+    if(typeof gtag!=='undefined')gtag('event','scroll_to_form');
+    if(typeof dataLayer!=='undefined')dataLayer.push({event:'scroll_to_form'});
+  }},{threshold:0.3}).observe(fEl);
 })();
 
 // ─── COUNTER ANIMATIONS (count-up) ───
