@@ -289,8 +289,129 @@ Botão:    verbo de acção + contexto de baixo risco
 
 ---
 
-## Ficheiro de Referência
+## Ficheiros de Referência (atualizado Jun 2026)
 
-`mentoria-manuel-leitao.html` — landing page completa de Manuel Leitão, Growth Partner.  
-Copy e ordem de secções validados para tráfego Instagram com intenção prévia.  
-Usa este ficheiro como base para futuros projectos similares (mentoria, consultoria, serviços premium B2C).
+**Produção (4 blocos GHL Custom Code):** `ghl-part1.html` → `ghl-part4.html`
+**Versão imersiva (página de teste):** `ghl-part1-fable.html` → `ghl-part4-fable.html`
+**CSS global:** `mentoria-styles.css` — servido via GitHub Pages (`manelmrleitao.github.io/lp-assets/`)
+**Arquivo:** `antigo/` — versões antigas, incluindo o single-file original
+
+Copy e ordem de secções validados para tráfego Instagram com intenção prévia.
+Para projetos novos similares (mentoria, consultoria, serviços premium B2C), partir dos ghl-part1-4.
+
+---
+
+# LIÇÕES CRÍTICAS GHL (aprendidas em produção — Jun 2026)
+
+## ⚠️ Formulários: NUNCA construir form custom que envia para a API do GHL
+
+**O que aconteceu:** um form custom (HTML próprio) enviava via `fetch` para `api.leadconnectorhq.com/widget/form/submit` — endpoint que **não existe** (404). O `catch` vazio engolia o erro e mostrava "enviado!" — **todos os leads perderam-se silenciosamente**.
+
+**Porque não dá para arranjar:** o endpoint real (`backend.leadconnectorhq.com/forms/submit`) está protegido por **Cloudflare + reCAPTCHA** e recusa pedidos fora do iframe oficial (403 no preflight CORS).
+
+**Regra:** usar SEMPRE o form/survey **nativo do GHL em iframe**:
+```html
+<iframe src="https://api.leadconnectorhq.com/widget/form/{FORM_ID}"
+  style="width:100%;min-height:760px;border:none;border-radius:12px;display:block;background:transparent;"
+  id="inline-{FORM_ID}" data-form-id="{FORM_ID}" title="Candidatura"></iframe>
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
+```
+Garante: contacto criado, workflow disparado, redirect, pixel das form settings — de graça (sem Inbound Webhook premium).
+
+**Rede de segurança no parent (redirect + pixel Lead):**
+```js
+window.addEventListener('message',function(e){
+  if(typeof e.origin!=='string'||(e.origin.indexOf('leadconnectorhq.com')===-1&&e.origin.indexOf('msgsndr')===-1))return;
+  var d=e.data;try{if(typeof d!=='string')d=JSON.stringify(d);}catch(_){return;}
+  if(/form[-_ ]?submit|submitted|formSubmission/i.test(d)&&!window._leadFired){
+    window._leadFired=1;
+    if(typeof fbq!=='undefined')fbq('track','Lead');
+    if(typeof gtag!=='undefined')gtag('event','form_submit');
+    setTimeout(function(){location.href='/obrigado';},1500);
+  }
+});
+```
+
+### Checklist de form settings (GHL)
+- [ ] **On Submit → URL COMPLETO** com `https://dominio.com/obrigado` — "obrigado" sozinho redireciona para `https://obrigado/` (DNS error!)
+- [ ] **Todos os campos Required** (sem isto o form aceita submissões vazias)
+- [ ] Notificação por email nas form settings (vem com PDF da submissão — melhor que ação de workflow)
+- [ ] Pixel event nas form settings (usar "Lead" standard para otimização Meta)
+- [ ] No editor de emails do GHL: variáveis `{{...}}` coladas como texto dão "Issues in your custom variables" — inserir SEMPRE pelo ícone de etiqueta 🏷️
+
+## ⚠️ Workflows GHL: armadilhas que matam emails
+
+| Armadilha | Sintoma | Correção |
+|---|---|---|
+| **Time Window** na ação/workflow | Email fica "Waiting" no Execution log (até à próxima janela) | Workflow Settings → remover janela ou 24/7 |
+| **Re-entry bloqueada** (default) | 2ª submissão do mesmo contacto = "Skipped"; testes repetidos não disparam | Settings → Allow re-entry; remover contacto preso no Enrollment history |
+| Ação **"Email" envia para o CONTACTO** | "Notificação para mim" vai parar ao lead; eu não recebo nada | Usar **Internal Notification** (tipo Email → To: user) ou a notificação das form settings |
+| Contacto preso num passo | Active enrolled ≥1 parado há dias | Enrollment history → remove |
+
+**Debug:** Execution logs do workflow mostram cada passo com estado (Executed/Waiting/Skipped/Failed) — é a primeira coisa a ver quando "não recebi nada".
+
+## ⚠️ Email: dedicated domain obrigatório antes de ir ao ar
+
+Sem domínio dedicado, os emails saem de `mg.msgsndr.biz` (partilhado) → spam quase garantido.
+
+**Setup (Settings → Email Services → Dedicated Domain → `mail.{dominio}.com`):**
+6 registos DNS (GoDaddy: Name SEM o domínio, ele acrescenta sozinho):
+| Tipo | Name | Valor | Prio |
+|---|---|---|---|
+| TXT | `mail` | `v=spf1 include:spf.leadconnectorhq.com include:mailgun.org ~all` | — |
+| TXT | `pic._domainkey.mail` | DKIM `k=rsa; p=...` (Copy no GHL) | — |
+| CNAME | `email.mail` | `mailgun.org` | — |
+| MX | `mail` | `mxa.mailgun.org` | **10** |
+| MX | `mail` | `mxb.mailgun.org` | **10** |
+| TXT | `_dmarc.mail` | `v=DMARC1;p=none;` | — |
+
+- NÃO tocar nos registos `@` do domínio raiz (email pessoal Google/Microsoft vive lá)
+- "Record name conflicts" na GoDaddy = registo já existe; editar em vez de criar
+- Verificar propagação: `dig TXT mail.dominio.com +short` etc.
+- Resultado validado: notificação com PDF a cair na **caixa Principal** do Gmail
+
+## GHL Page Builder: quirks de embedding (4 blocos Custom Code)
+
+- **Full-bleed:** wrappers GHL têm padding/max-width. Forçar `width:100%` + `padding-left/right:0` nos ancestrais. **NUNCA zerar margens** — mata o `margin:auto` e o conteúdo cola à esquerda.
+- **Fundos por bloco criam costuras:** cada `lp-wrap` com bg opaco mostra fronteiras. Solução fable: canvas fixo (z-index:0) pinta o fundo escuro + estrelas; `lp-wrap` transparente com `position:relative;z-index:1`.
+- **Grelhas por secção** (grid-bg) criam linhas de fronteira → usar UMA grelha global fixa com fade radial.
+- **CSS externo via GitHub Pages** atualiza sozinho com push (cache ~1-2 min; hard refresh). HTML dos blocos é colado à mão no GHL.
+- **Páginas novas/duplicadas não herdam o head** → o part1 deve incluir `<link>` do CSS + fontes (autossuficiente).
+- **Automação de browser não funciona no builder GHL** (tabs, settings, drag-drop ignoram cliques sintéticos) — colagem de código é sempre manual.
+
+## Logos em carrosséis: o problema do "S do Shopify"
+
+`filter:brightness(0) invert(1)` pinta TUDO de branco — logos com detalhe interior (S do Shopify, M do Miro) ficam silhuetas ilegíveis.
+- **Logos de 1 cor** (Meta, Google Ads, Klaviyo): `<img>` + filter funciona
+- **Logos de 2 tons**: embutir SVG inline com fills manuais — forma principal `#fff`, detalhe interior na cor do fundo (`#0a0a0a`) = efeito recorte
+- Normalizar: `.logo-item__icon{height:44px;display:flex;align-items:center}` + `img,svg{height:30px!important;width:auto}`
+
+## Marquee/loop infinito sem buracos
+
+Animação CSS por `%` desalinha com larguras reais (imagens carregam tarde, logos novos). Motor JS:
+1. Medir largura real de 1 conjunto: `kids[per].offsetLeft - kids[0].offsetLeft`
+2. Wrap ao píxel: `x=(x+setW*dt/msPerSet)%setW`
+3. **Re-medir** em `img load` e `resize`
+4. **Clonar conjuntos** até `track.scrollWidth ≥ setW + 1.6×viewport` (senão buraco em ecrãs largos)
+5. Pausa em hover; respeitar `prefers-reduced-motion`
+
+## Camada "fable" (versão imersiva) — padrões
+
+Efeitos por cima da LP sem tocar no conteúdo: aurora no hero (blobs blur + drift), spotlight do cursor, botões magnéticos + sheen, tilt 3D em cards, shimmer no destaque do headline, glow-follow nos pilares, radar com entrada animada, barra de progresso, voltar-ao-topo. Regras:
+- Guards anti-duplicação (`window._fbl*`) — blocos podem carregar 2×
+- `prefers-reduced-motion: reduce` desliga animações
+- Efeitos de cursor só em `(pointer:fine)` (desligados em mobile)
+- Cada efeito num `<style>`+`<script>` no fim do bloco respetivo
+
+## Checklist de lançamento end-to-end (validada)
+
+- [ ] Submissão vazia é recusada (required fields)
+- [ ] Validação telemóvel PT: 9 dígitos a começar por 9
+- [ ] Submeter → redirect para `https://dominio/obrigado` (URL completo!)
+- [ ] Lead aparece nos Contacts com todos os campos
+- [ ] Workflow: Execution log tudo "Executed" (sem Waiting/Skipped)
+- [ ] Notificação chega à inbox do dono (Principal, não spam)
+- [ ] Auto-responder chega ao lead
+- [ ] Pixel: PageView → ViewContent (scroll ao form) → Lead (submit) — verificar por network requests (`facebook.com/tr`)
+- [ ] Dedicated domain verificado ANTES de ligar tráfego
+- [ ] Testar com email NOVO (re-entry!) e limpar contactos de teste no fim
