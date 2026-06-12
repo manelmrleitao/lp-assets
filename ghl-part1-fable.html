@@ -375,3 +375,43 @@ html{scroll-behavior:smooth;}
   upd();
 })();
 </script>
+
+<!-- ═══ FABLE: marquee sem costuras — mede a largura real e faz wrap exato ═══ -->
+<style>
+.fbl-marquee-fixed{animation:none!important;}
+</style>
+<script>
+(function(){
+  if(window._fblMarq)return;window._fblMarq=1;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  function fixMarquee(id,sets,msPerSet){
+    var tr=document.getElementById(id);if(!tr||tr._fblM)return;tr._fblM=1;
+    tr.classList.add('fbl-marquee-fixed');
+    var paused=false,x=0,last=null,setW=0;
+    tr.addEventListener('mouseenter',function(){paused=true;});
+    tr.addEventListener('mouseleave',function(){paused=false;});
+    function measure(){
+      var kids=tr.children,per=Math.floor(kids.length/sets);
+      if(kids.length<per+1)return 0;
+      return kids[per].offsetLeft-kids[0].offsetLeft;
+    }
+    /* re-medir quando imagens carregam tarde (ex.: SVG do Meta) ou no resize */
+    tr.querySelectorAll('img').forEach(function(im){im.addEventListener('load',function(){setW=0;});});
+    window.addEventListener('resize',function(){setW=0;});
+    window.addEventListener('load',function(){setW=0;});
+    function tick(ts){
+      if(last==null)last=ts;
+      var dt=Math.min(ts-last,100);last=ts;
+      if(!setW||setW<10)setW=measure();
+      if(setW>10&&!paused){
+        x=(x+setW*dt/msPerSet)%setW;
+        tr.style.transform='translateX(-'+x.toFixed(2)+'px)';
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  fixMarquee('logosTrack',4,30000);  /* 4 conjuntos de 6 logos */
+  fixMarquee('marksTrack',2,25000);  /* montagem das marcas: 2 conjuntos */
+})();
+</script>
