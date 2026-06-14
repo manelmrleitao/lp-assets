@@ -388,6 +388,9 @@ html{scroll-behavior:smooth;}
 
 <!-- ═══ FABLE: grelha global contínua — remove costuras entre secções ═══ -->
 <style>
+/* FUNDO ESCURO GARANTIDO POR CSS (não depende do JS do canvas — fix mobile) */
+html,body{background:#0a0a0a!important;background-color:#0a0a0a!important;}
+canvas#starfield{background:#0a0a0a!important;z-index:0!important;position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;}
 /* desliga as grelhas por-secção (criavam fronteiras visíveis) */
 .grid-bg{background-image:none!important;background-color:transparent!important;}
 .grid-bg::before,.grid-bg::after{display:none!important;}
