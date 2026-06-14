@@ -1,3 +1,6 @@
 .claude/
 *.min.html
 _newblock.txt
+
+.DS_Store
+serve.py
