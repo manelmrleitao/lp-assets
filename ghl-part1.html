@@ -438,11 +438,14 @@ canvas#starfield{background:#0a0a0a!important;z-index:-1!important;position:fixe
     bar.innerHTML='<a href="#formulario" class="btn btn--green-lg">Quero candidatar-me →</a>';
     document.body.appendChild(bar);
     var form=document.getElementById('formulario');
+    var _btns=[].slice.call(document.querySelectorAll('.btn--green-lg')).filter(function(b){return !b.closest('#stickyCta');});
+    var lastBtn=_btns[_btns.length-1];
     function update(){
       var r=heroBtn.getBoundingClientRect();
       var passed=r.bottom<60;                 /* hero já passou (acima da navbar) */
       var block=false;                        /* esconder só quando o form embebido está no ecrã */
       if(form){var fr=form.getBoundingClientRect();if(fr.top<innerHeight&&fr.bottom>80)block=true;}
+      if(lastBtn){var lr=lastBtn.getBoundingClientRect();if(lr.top<innerHeight)block=true;} /* esconde a partir do último CTA */
       var show=passed&&!block;
       bar.classList.toggle('on',show);
       document.body.classList.toggle('sticky-on',show);
