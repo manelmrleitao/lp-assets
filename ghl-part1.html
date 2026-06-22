@@ -87,13 +87,11 @@
         </div>
       </div>
 
-      <!-- COLUNA DIREITA: CTA que abre o modal -->
+      <!-- COLUNA DIREITA: FORM inline -->
       <div class="cta-split__right anim anim-delay-2">
-        <div class="cform-wrap" style="padding:44px 32px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:300px;">
-          <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.25;">Candidata-te em 2 minutos</div>
-          <p style="font-size:14px;color:#999;margin:0;line-height:1.6;">Sem compromisso. Analiso cada candidatura pessoalmente.</p>
-          <button type="button" class="btn btn--green-lg open-form-modal" style="margin-top:8px;">Candidatar-me agora →</button>
-        </div>
+        <div class="cform-wrap" style="padding:20px;">
+            <iframe src="https://api.leadconnectorhq.com/widget/form/kUBQa9Ttoa4dTjkE15db" style="width:100%;min-height:760px;border:none;border-radius:12px;display:block;background:transparent;" id="inline-kUBQa9Ttoa4dTjkE15db" data-form-id="kUBQa9Ttoa4dTjkE15db" title="Candidatura Mentoria"></iframe>
+          </div>
         <p style="text-align:center;margin-top:14px;font-size:13px;color:#555;">Respondo a todas as candidaturas pessoalmente.</p>
       </div>
 
@@ -524,7 +522,7 @@ body.modal-open{overflow:hidden;}
   <div class="form-modal__overlay" data-close></div>
   <div class="form-modal__box" role="dialog" aria-modal="true" aria-label="Candidatura à mentoria">
     <button type="button" class="form-modal__close" data-close aria-label="Fechar">×</button>
-    <iframe src="https://api.leadconnectorhq.com/widget/form/kUBQa9Ttoa4dTjkE15db" style="width:100%;min-height:720px;border:none;border-radius:12px;display:block;background:transparent;" id="inline-kUBQa9Ttoa4dTjkE15db" data-form-id="kUBQa9Ttoa4dTjkE15db" title="Candidatura Mentoria"></iframe>
+    <iframe src="https://api.leadconnectorhq.com/widget/form/kUBQa9Ttoa4dTjkE15db" style="width:100%;min-height:720px;border:none;border-radius:12px;display:block;background:transparent;" id="popup-kUBQa9Ttoa4dTjkE15db" data-form-id="kUBQa9Ttoa4dTjkE15db" title="Candidatura Mentoria"></iframe>
   </div>
 </div>
 <script>
@@ -543,7 +541,7 @@ body.modal-open{overflow:hidden;}
   function close(){if(!modal)return;modal.classList.remove('open');document.body.classList.remove('modal-open');modal.setAttribute('aria-hidden','true');}
   document.addEventListener('click',function(e){
     if(!e.target.closest)return;
-    var t=e.target.closest('a[href="#formulario"], .open-form-modal, #stickyCta a');
+    var t=e.target.closest('.navbar a[href="#formulario"], #stickyCta a, .open-form-modal');
     if(t){e.preventDefault();open();return;}
     if(e.target.closest('#formModal [data-close]'))close();
   });
