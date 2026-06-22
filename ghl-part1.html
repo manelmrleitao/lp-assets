@@ -441,12 +441,7 @@ canvas#starfield{background:#0a0a0a!important;z-index:-1!important;position:fixe
     function update(){
       var r=heroBtn.getBoundingClientRect();
       var passed=r.bottom<60;                 /* hero já passou (acima da navbar) */
-      var block=false;                        /* esconder se houver CTA inline ou o form no ecrã */
-      document.querySelectorAll('.btn--green-lg').forEach(function(b){
-        if(b.closest('#stickyCta'))return;
-        var br=b.getBoundingClientRect();
-        if(br.top<innerHeight-40&&br.bottom>60)block=true;
-      });
+      var block=false;                        /* esconder só quando o form embebido está no ecrã */
       if(form){var fr=form.getBoundingClientRect();if(fr.top<innerHeight&&fr.bottom>80)block=true;}
       var show=passed&&!block;
       bar.classList.toggle('on',show);
