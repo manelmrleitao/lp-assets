@@ -142,7 +142,7 @@
     if(/form[-_ ]?submit|submitted|formSubmission/i.test(d)&&!window._fblLeadFired){
       window._fblLeadFired=1;
       if(typeof fbq!=='undefined')fbq('track','Lead');
-      if(typeof gtag!=='undefined')gtag('event','form_submit');
+      if(typeof gtag!=='undefined')gtag('event','form_submit',{event_category:'formulario',event_label:'Candidatura enviada'});
       if(typeof dataLayer!=='undefined')dataLayer.push({event:'lead_submit'});
       setTimeout(function(){window.location.href='/obrigado';},1500);
     }
@@ -502,5 +502,35 @@ canvas#starfield{background:#0a0a0a!important;z-index:-1!important;position:fixe
   }
   lift();[150,600,1500,3000].forEach(function(d){setTimeout(lift,d);});
   window.addEventListener('load',lift);
+})();
+</script>
+
+<!-- ═══ GA4: form_open + form_start (form_submit já no listener de submit) ═══ -->
+<script>
+(function(){
+  if(window._ga4ev)return;window._ga4ev=1;
+  function ev(name,label){
+    var p={event_category:'formulario',event_label:label};
+    if(typeof gtag!=='undefined')gtag('event',name,p);
+    if(typeof dataLayer!=='undefined')dataLayer.push({event:name,event_category:'formulario',event_label:label});
+  }
+  /* FORM_OPEN — clique em qualquer CTA da pagina (botoes reais desta LP) */
+  document.addEventListener('click',function(e){
+    if(e.target.closest && e.target.closest('a[href="#formulario"], .btn--green, .btn--green-lg')){
+      ev('form_open','CTA clicado');
+    }
+  });
+  /* FORM_START — primeiro foco no formulario. O form e um iframe GHL (cross-origin):
+     os campos nao sao acessiveis; deteta-se via foco do iframe. */
+  window.addEventListener('blur',function(){
+    setTimeout(function(){
+      if(window.formStarted)return;
+      var a=document.activeElement;
+      if(a&&a.tagName==='IFRAME'&&/leadconnectorhq|msgsndr|kUBQa9/.test(a.getAttribute('src')||'')){
+        window.formStarted=true;
+        ev('form_start','Formulario iniciado');
+      }
+    },0);
+  });
 })();
 </script>
