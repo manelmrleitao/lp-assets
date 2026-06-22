@@ -274,8 +274,8 @@
     e.preventDefault();
     if(id==='#formulario'){
       var fr=t.getBoundingClientRect();
-      /* se o form embedded já foi passado (acima do ecrã), abre pop-up em vez de fazer scroll para cima */
-      if(fr.bottom<80&&window.lpOpenForm){window.lpOpenForm();return;}
+      /* navbar -> abre sempre o pop-up; restantes -> pop-up só se o form embedded já foi passado */
+      if((a.closest('.navbar')||fr.bottom<80)&&window.lpOpenForm){window.lpOpenForm();return;}
     }
     t.scrollIntoView({behavior:rm?'auto':'smooth'});
   });
