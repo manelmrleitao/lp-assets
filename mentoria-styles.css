@@ -1177,7 +1177,7 @@
     /* ─── SPIDER CHART ─── */
     .spider-section { background: var(--bg2); }
     .spider-wrap {
-      max-width: 460px;
+      max-width: 506px;
       margin: 0 auto;
       position: relative;
     }
@@ -2197,10 +2197,10 @@
       flex-direction: column;
       align-items: center;
       gap: 28px;
-      max-width: 560px;
+      max-width: 616px;
       margin: 0 auto;
     }
-    .spider-wrap { order: 1; width: 100%; max-width: 560px; }
+    .spider-wrap { order: 1; width: 100%; max-width: 616px; }
     .spider-legend--vertical {
       order: 2;
       flex-direction: row;
@@ -2215,7 +2215,7 @@
       line-height: 1.3;
     }
     /* Spider polygon animation from centre outward */
-    .spider-poly { transform-origin: 200px 200px; }
+    .spider-poly { transform-origin: 300px 290px; }
     .spider-poly--gray  { animation: spiderGrow 0.9s cubic-bezier(.22,.68,0,1.2) 0.3s both; }
     .spider-poly--green { animation: spiderGrow 1s   cubic-bezier(.22,.68,0,1.2) 0.7s both; }
     .spider-poly--blue  { animation: spiderGrow 1s   cubic-bezier(.22,.68,0,1.2) 1.1s both; }
