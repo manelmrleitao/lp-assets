@@ -37,10 +37,13 @@ initAll();
 document.addEventListener('DOMContentLoaded',initAll);
 window.addEventListener('load',initAll);
 })();
-document.querySelectorAll('.anim').forEach(function(el){
-new IntersectionObserver(function(es,o){if(es[0].isIntersecting){el.classList.add('visible');o.disconnect();}},{threshold:0.12}).observe(el);
-});
-setTimeout(function(){document.querySelectorAll('.anim').forEach(function(el){el.classList.add('visible');});},2000);
+(function(){
+var all=document.querySelectorAll('.anim');
+if(!('IntersectionObserver' in window)){all.forEach(function(el){el.classList.add('visible');});return;}
+var io=new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -8% 0px'});
+function obs(){document.querySelectorAll('.anim:not(.visible)').forEach(function(el){io.observe(el);});}
+obs(); window.addEventListener('load',obs);
+})();
 (function(){
 function fixGHLRow(){
 var selectors=['.c-row','.c-column','.c-wrapper','.c-custom-code','.custom-code-container','.vertical'];
